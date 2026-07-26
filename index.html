@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tangible Memories — Instant photography by Calil</title>
+<meta name="description" content="Tangible Memories — instant film photography by Calil. Prints that last beyond a screen. $10 per print, $5 per magnetic sleeve. Book a session.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Organic design tokens ─────────────────────────────────────────── */
+:root{
+  --color-bg:#f5ead8;--color-surface:#ebddc5;--color-text:#201e1d;
+  --color-accent:#c67139;--color-accent-2:#7a8a5e;
+  --color-divider:color-mix(in srgb,#201e1d 16%,transparent);
+  --color-neutral-100:#f9f4ed;--color-neutral-200:#eee7db;--color-neutral-300:#dcd3c4;
+  --color-neutral-400:#c0b6a5;--color-neutral-500:#a19786;--color-neutral-600:#82796a;
+  --color-neutral-700:#645c50;--color-neutral-800:#474238;--color-neutral-900:#2e2b25;
+  --color-accent-100:#fff2eb;--color-accent-200:#ffe1d0;--color-accent-300:#ffc6a5;
+  --color-accent-400:#f6a06b;--color-accent-500:#d67f48;--color-accent-600:#b2622d;
+  --color-accent-700:#8c491a;--color-accent-800:#643312;--color-accent-900:#402310;
+  --color-accent-2-100:#f0fae1;--color-accent-2-200:#e1eecc;--color-accent-2-300:#ccdbb2;
+  --color-accent-2-400:#aebf92;--color-accent-2-500:#8fa073;--color-accent-2-600:#728157;
+  --color-accent-2-700:#56633f;--color-accent-2-800:#3d472b;--color-accent-2-900:#272e1b;
+  --font-heading:"Caprasimo",system-ui,sans-serif;--font-heading-weight:400;
+  --font-body:"Figtree",system-ui,sans-serif;
+  --space-1:4.4px;--space-2:8.8px;--space-3:13.2px;--space-4:17.6px;--space-6:26.4px;--space-8:35.2px;
+  --radius-sm:8px;--radius-md:16px;--radius-lg:28px;
+  --shadow-sm:0 1px 2px color-mix(in srgb,#2e2b25 14%,transparent);
+  --shadow-md:0 3px 10px color-mix(in srgb,#2e2b25 16%,transparent);
+  --shadow-lg:0 12px 32px color-mix(in srgb,#2e2b25 22%,transparent);
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);
+  font-size:15px;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased;}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-heading);font-weight:var(--font-heading-weight);
+  line-height:1.12;letter-spacing:-0.015em;margin:0 0 var(--space-2);}
+p{margin:0 0 var(--space-3);}
+img{display:block;max-width:100%;}
+a{color:var(--color-accent-700);text-decoration:none;text-underline-offset:3px;}
+a:hover{color:var(--color-accent-800);}
+::selection{background:var(--color-accent-200);}
+:focus{outline:none;}
+:focus-visible{outline:2px solid var(--color-accent);outline-offset:2px;}
+
+/* ── Components ─────────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;
+  text-decoration:none;font-family:var(--font-heading);font-weight:var(--font-heading-weight);
+  font-size:14px;line-height:1.2;color:var(--color-text);background:transparent;
+  border:1px solid transparent;padding:var(--space-2) calc(var(--space-3)*1.2);border-radius:999px;}
+.btn svg{display:block;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-primary{background:var(--color-accent);color:var(--color-bg);}
+.btn-primary:hover{background:var(--color-accent-600);}
+.btn-primary:active{background:var(--color-accent-700);}
+.btn-secondary{border-color:var(--color-divider);}
+.btn-secondary:hover{background:color-mix(in srgb,var(--color-text) 7%,transparent);}
+.btn-secondary:active{background:color-mix(in srgb,var(--color-text) 14%,transparent);}
+.btn-ghost{color:var(--color-accent);padding-inline:var(--space-1);}
+.btn-ghost:hover{background:color-mix(in srgb,var(--color-accent) 10%,transparent);}
+.btn-ghost:active{background:color-mix(in srgb,var(--color-accent) 18%,transparent);}
+.btn-icon{width:36px;height:36px;padding:0;}
+.btn-block{width:100%;margin-top:var(--space-2);}
+.field>label{display:block;font-size:12px;margin-bottom:5px;
+  color:color-mix(in srgb,var(--color-text) 70%,transparent);}
+.input{width:100%;min-height:36px;padding:6px 14px;font:inherit;font-size:14px;
+  color:var(--color-text);caret-color:var(--color-accent);background:var(--color-surface);
+  border:1px solid var(--color-divider);border-radius:999px;}
+.input:hover{border-color:color-mix(in srgb,var(--color-text) 45%,transparent);}
+.input:focus-visible{border-color:var(--color-accent);outline-offset:0;}
+.card{display:flex;flex-direction:column;gap:var(--space-2);padding:var(--space-3);
+  border-radius:calc(var(--radius-lg)*1.15);background:var(--color-surface);}
+.card-kicker{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);}
+.card-title{font-family:var(--font-heading);font-weight:var(--font-heading-weight);font-size:17px;line-height:1.2;}
+.card-body{margin:0;font-size:13px;opacity:.8;flex:1;}
+.elev-sm{box-shadow:var(--shadow-sm);}
+.elev-md{box-shadow:var(--shadow-md);}
+.elev-lg{box-shadow:var(--shadow-lg);}
+.tag{display:inline-flex;align-items:center;font-size:11px;letter-spacing:.02em;padding:3px 10px;
+  border-radius:999px;}
+.tag-accent-2{background:var(--color-accent-2-100);color:var(--color-accent-2-800);}
+.tag-outline{border:1px solid var(--color-accent);color:var(--color-accent);}
+.washed{filter:saturate(.6) contrast(.85) brightness(1.1) opacity(.94);}
+
+/* ── Layout ─────────────────────────────────────────────────────────── */
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px 96px;}
+.marquee-mask{margin-top:24px;background:var(--color-neutral-900);color:var(--color-neutral-100);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;padding:8px 0;}
+.marquee{display:flex;align-items:center;gap:34px;white-space:nowrap;width:max-content;
+  padding:11px 0;font-size:13px;letter-spacing:.14em;text-transform:uppercase;
+  animation:tm-marquee 32s linear infinite;}
+.marquee .sep{color:var(--color-accent-400);}
+@keyframes tm-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 22px;
+  margin-top:18px;border:2px solid var(--color-neutral-300);border-radius:999px;
+  background:var(--color-neutral-100);box-shadow:var(--shadow-sm);position:sticky;top:14px;z-index:5;}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-badge{width:30px;height:30px;border-radius:999px;background:var(--color-accent);display:flex;
+  align-items:center;justify-content:center;color:var(--color-neutral-100);font-family:var(--font-heading);font-size:15px;}
+.nav-word{font-family:var(--font-heading);font-size:20px;letter-spacing:-.01em;}
+.nav-links{display:flex;align-items:center;gap:22px;font-size:14px;}
+.nav-links a{color:var(--color-accent-700);}
+.nav-links a:hover{color:var(--color-accent-800);}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start;padding:52px 0 24px;}
+.hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px;}
+.hero h1{font-size:76px;line-height:.95;margin:0;letter-spacing:-.02em;}
+.hero-lead{font-size:21px;line-height:1.5;margin:0;max-width:30ch;color:var(--color-neutral-800);}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
+.price-pair{display:flex;gap:28px;padding-top:6px;}
+.price-fig{font-family:var(--font-heading);font-size:30px;line-height:1;}
+.price-lbl{font-size:13px;color:var(--color-neutral-700);}
+.hero-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);}
+.hero-img img{width:100%;height:auto;display:block;}
+
+.tagrow{display:flex;flex-wrap:wrap;gap:12px;padding:34px 0 6px;}
+
+.manifesto{position:relative;margin-top:34px;border:2px solid var(--color-accent-2-300);
+  border-radius:var(--radius-lg);background:var(--color-accent-2-100);padding:44px;
+  display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center;overflow:hidden;}
+.manifesto .deco1{position:absolute;right:-70px;top:-70px;width:220px;height:220px;
+  border:2px dashed var(--color-accent-2-400);border-radius:999px;pointer-events:none;}
+.manifesto .deco2{position:absolute;right:40px;bottom:-90px;width:160px;height:160px;
+  background:var(--color-accent-2-200);border-radius:999px;pointer-events:none;}
+.manifesto h2{font-size:44px;line-height:1.05;margin:0;position:relative;}
+.manifesto p{font-size:18px;line-height:1.65;margin:0;color:var(--color-neutral-800);position:relative;}
+
+.how{padding:48px 0;}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.how .card{border:2px solid var(--color-accent-200);}
+.how-num{width:46px;height:46px;border-radius:999px;background:var(--color-accent-200);
+  color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-heading);font-size:20px;margin-bottom:14px;}
+
+.gallery{padding:64px 0 24px;scroll-margin-top:80px;}
+.gallery-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;
+  flex-wrap:wrap;margin-bottom:26px;}
+.gallery-head h2{font-size:44px;line-height:1;margin:0;}
+.gallery-note{font-size:15px;color:var(--color-neutral-700);}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;
+  border:2px dashed var(--color-accent-300);border-radius:var(--radius-lg);padding:26px 26px 34px;}
+.mount{background:var(--color-neutral-100);border-radius:var(--radius-md);padding:12px 12px 44px;
+  box-shadow:var(--shadow-md);}
+.mount .frame{aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--color-neutral-300);}
+.mount .frame img{width:100%;height:100%;object-fit:cover;}
+.mount .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  text-align:center;font-size:12px;color:var(--color-neutral-600);padding:10px;
+  background:repeating-linear-gradient(45deg,var(--color-neutral-200),var(--color-neutral-200) 10px,var(--color-neutral-300) 10px,var(--color-neutral-300) 20px);}
+
+.prices{padding:72px 0 24px;scroll-margin-top:80px;}
+.prices>h2{font-size:44px;line-height:1;margin:0 0 26px;}
+.prices-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:start;}
+.order{display:flex;flex-direction:column;gap:20px;}
+.order-row{display:flex;align-items:center;gap:18px;}
+.thumb-print{width:64px;height:78px;background:var(--color-neutral-100);border-radius:6px;
+  padding:6px 6px 18px;box-shadow:var(--shadow-sm);flex:none;}
+.thumb-print>div{height:100%;background:var(--color-neutral-300);border-radius:3px;}
+.thumb-sleeve{width:64px;height:78px;background:var(--color-accent-2-200);border-radius:8px;flex:none;}
+.order-row .meta{flex:1;}
+.order-row .meta .card-title{margin:0;}
+.order-row .meta .sub{font-size:14px;color:var(--color-neutral-700);}
+.stepper{display:flex;align-items:center;gap:14px;border:1.5px solid var(--color-neutral-300);
+  border-radius:999px;padding:6px 14px;}
+.stepper button{padding:0 6px;min-height:auto;font-size:16px;}
+.stepper .count{font-family:var(--font-heading);font-size:18px;min-width:16px;text-align:center;}
+.total-row{display:flex;align-items:baseline;justify-content:space-between;
+  border-top:1.5px dashed var(--color-neutral-300);padding-top:18px;}
+.total-row .lbl{font-size:15px;color:var(--color-neutral-700);}
+.total-row .fig{font-family:var(--font-heading);font-size:36px;line-height:1;}
+.good-to-know{background:var(--color-accent-2-100);}
+
+.book{padding:72px 0 0;scroll-margin-top:80px;}
+.book-panel{background:var(--color-neutral-900);color:var(--color-neutral-100);
+  border-radius:var(--radius-lg);padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:44px;
+  box-shadow:var(--shadow-lg);}
+.book-panel h2{font-size:42px;line-height:1.02;margin:0;}
+.book-left{display:flex;flex-direction:column;gap:18px;}
+.book-lead{font-size:17px;line-height:1.6;margin:0;color:var(--color-neutral-300);}
+.deposit{border-top:1.5px dashed rgba(245,234,216,.25);padding-top:20px;display:flex;flex-direction:column;gap:12px;}
+.deposit .kick{font-size:13px;letter-spacing:.1em;color:var(--color-neutral-400);}
+.deposit .amt-row{display:flex;align-items:baseline;gap:10px;}
+.deposit .amt{font-family:var(--font-heading);font-size:30px;line-height:1;}
+.deposit .amt-sub{font-size:15px;color:var(--color-neutral-300);}
+.deposit .pay-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.deposit .cashtag{font-size:14px;color:var(--color-neutral-300);}
+.deposit .fine{font-size:14px;color:var(--color-neutral-400);}
+.book-form{display:flex;flex-direction:column;gap:16px;}
+.book-form label{color:var(--color-neutral-300);}
+.form-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.dm-btn{border-color:rgba(245,234,216,.45);color:var(--color-neutral-100);}
+.order-echo{font-size:13px;color:var(--color-neutral-400);}
+.status-line{font-size:13px;color:var(--color-accent-300);min-height:1em;}
+
+.footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:44px 4px 0;}
+.footer-brand{display:flex;flex-direction:column;gap:6px;}
+.footer-word{font-family:var(--font-heading);font-size:22px;}
+.footer-tag{font-size:14px;color:var(--color-neutral-700);}
+.footer-links{display:flex;align-items:center;gap:12px;}
+.footer-links .btn-icon{color:var(--color-text);}
+.footer-handle{font-size:15px;color:var(--color-neutral-700);}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+@media (max-width:900px){
+  .wrap{padding:0 18px 72px;}
+  .hero{grid-template-columns:1fr;gap:28px;}
+  .hero-copy{order:1;}
+  .hero-img{order:2;}
+  .hero h1{font-size:52px;}
+  .manifesto{grid-template-columns:1fr;gap:20px;padding:32px;}
+  .manifesto h2{font-size:32px;}
+  .how-grid{grid-template-columns:repeat(2,1fr);}
+  .gallery-head h2,.prices>h2{font-size:32px;}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);}
+  .prices-grid{grid-template-columns:1fr;}
+  .book-panel{grid-template-columns:1fr;gap:32px;padding:36px;}
+  .book-panel h2{font-size:32px;}
+  .nav-links a:not(.btn){display:none;}
+}
+@media (max-width:560px){
+  .how-grid{grid-template-columns:1fr;}
+  .gallery-grid{grid-template-columns:1fr;}
+  .form-two{grid-template-columns:1fr;}
+  .hero h1{font-size:44px;}
+}
+@media (prefers-reduced-motion:reduce){
+  .marquee{animation:none;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 1. Announcement banner -->
+  <div class="marquee-mask">
+    <div class="marquee" id="marquee"></div>
+  </div>
+
+  <!-- 2. Nav -->
+  <nav class="nav">
+    <span class="nav-brand">
+      <span class="nav-badge">T</span>
+      <span class="nav-word">Tangible Memories</span>
+    </span>
+    <div class="nav-links">
+      <a href="#gallery">Gallery</a>
+      <a href="#prices">Prices</a>
+      <a href="#book" class="btn btn-primary">Book a session</a>
+    </div>
+  </nav>
+
+  <!-- 3. Hero -->
+  <header class="hero">
+    <div class="hero-copy">
+      <span class="tag tag-accent-2">Instant film · limited slots</span>
+      <h1>Tangible<br>Memories</h1>
+      <p class="hero-lead">Instant moments, real memories. You leave the session holding the photograph — not waiting on a camera roll.</p>
+      <div class="hero-cta">
+        <a href="#book" class="btn btn-primary">Book your session</a>
+        <a href="#gallery" class="btn btn-secondary">See the prints</a>
+      </div>
+      <div class="price-pair">
+        <div><div class="price-fig">$10</div><div class="price-lbl">one print</div></div>
+        <div><div class="price-fig">$5</div><div class="price-lbl">magnetic sleeve</div></div>
+      </div>
+    </div>
+    <div class="hero-img washed">
+      <img src="assets/hero-poster.png" alt="Tangible Memories — instant photography by Calil" width="1024" height="1536">
+    </div>
+  </header>
+
+  <!-- 4. Tag row -->
+  <div class="tagrow">
+    <span class="tag tag-outline">Same-day prints</span>
+    <span class="tag tag-outline">One of a kind</span>
+    <span class="tag tag-outline">No digital files</span>
+    <span class="tag tag-outline">20-minute sessions</span>
+    <span class="tag tag-outline">Groups welcome</span>
+  </div>
+
+  <!-- 5. Manifesto -->
+  <section class="manifesto">
+    <div class="deco1"></div>
+    <div class="deco2"></div>
+    <h2>Prints that last<br>beyond a screen.</h2>
+    <p>Every session is shot on instant film and developed in front of you. No gallery link, no download folder — one photograph, in your hand, the same afternoon. Slip it in a magnetic sleeve and it goes straight on the fridge.</p>
+  </section>
+
+  <!-- 6. How it works -->
+  <section class="how">
+    <div class="how-grid">
+      <div class="card elev-sm">
+        <div class="how-num">1</div>
+        <div class="card-title">Pick a slot</div>
+        <p class="card-body">Send a request below with the day that works. Sessions run about twenty minutes.</p>
+      </div>
+      <div class="card elev-sm">
+        <div class="how-num">2</div>
+        <div class="card-title">We shoot</div>
+        <p class="card-body">A handful of frames on instant film. You watch each one come up as it develops.</p>
+      </div>
+      <div class="card elev-sm">
+        <div class="how-num">3</div>
+        <div class="card-title">You take it home</div>
+        <p class="card-body">Choose your favourites, sleeve them, and walk out with them in your pocket.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Gallery -->
+  <section id="gallery" class="gallery">
+    <div class="gallery-head">
+      <h2>Recent sessions</h2>
+      <span class="gallery-note">Each one printed once, handed over the same day.</span>
+    </div>
+    <div class="gallery-grid">
+      <div class="mount" style="transform:rotate(-1.4deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+      <div class="mount" style="transform:rotate(1.1deg);margin-top:22px"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+      <div class="mount" style="transform:rotate(-0.8deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+      <div class="mount" style="transform:rotate(1.6deg);margin-top:14px"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+    </div>
+  </section>
+
+  <!-- 8. Prices -->
+  <section id="prices" class="prices">
+    <h2>What you take home</h2>
+    <div class="prices-grid">
+      <div class="card elev-md order">
+        <div class="order-row">
+          <div class="thumb-print"><div></div></div>
+          <div class="meta">
+            <div class="card-title">Instant print</div>
+            <div class="sub"><span id="printPriceLabel">$10</span> each</div>
+          </div>
+          <div class="stepper">
+            <button class="btn btn-ghost" data-step="prints" data-dir="-1" aria-label="Fewer prints">–</button>
+            <span class="count" id="printsCount">2</span>
+            <button class="btn btn-ghost" data-step="prints" data-dir="1" aria-label="More prints">+</button>
+          </div>
+        </div>
+        <div class="order-row">
+          <div class="thumb-sleeve"></div>
+          <div class="meta">
+            <div class="card-title">Magnetic sleeve</div>
+            <div class="sub"><span id="sleevePriceLabel">$5</span> each · fridge-ready</div>
+          </div>
+          <div class="stepper">
+            <button class="btn btn-ghost" data-step="sleeves" data-dir="-1" aria-label="Fewer sleeves">–</button>
+            <span class="count" id="sleevesCount">1</span>
+            <button class="btn btn-ghost" data-step="sleeves" data-dir="1" aria-label="More sleeves">+</button>
+          </div>
+        </div>
+        <div class="total-row">
+          <span class="lbl">Your total on the day</span>
+          <span class="fig" id="totalLabel">$25</span>
+        </div>
+        <a href="#book" class="btn btn-primary btn-block">Book with this order</a>
+      </div>
+      <div class="card elev-sm good-to-know">
+        <div class="card-kicker">Good to know</div>
+        <p class="card-body">Prints are one of a kind — there's no negative and no digital file. Add sleeves for the ones going on a fridge or in a wallet.</p>
+        <p class="card-body">Group sessions and events are quoted per shoot; ask when you request a slot.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Book -->
+  <section id="book" class="book">
+    <div class="book-panel">
+      <div class="book-left">
+        <h2>Book your<br>session today</h2>
+        <p class="book-lead">Limited slots each month. Send a request and you'll hear back the same day with a time and a spot to meet.</p>
+        <div class="deposit">
+          <div class="kick">DEPOSIT &amp; PAYMENT</div>
+          <div class="amt-row">
+            <span class="amt">$50</span>
+            <span class="amt-sub">holds the slot · comes off your total</span>
+          </div>
+          <div class="pay-row">
+            <a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Send deposit on Cash App</a>
+            <span class="cashtag">$calilhall</span>
+          </div>
+          <span class="fine">Card, Apple Pay or cash for the balance at the session.</span>
+        </div>
+      </div>
+      <form class="book-form" id="bookForm" novalidate>
+        <div class="field"><label for="tm-name">Name</label><input class="input" id="tm-name" placeholder="Your name"></div>
+        <div class="field"><label for="tm-contact">Email or Instagram</label><input class="input" id="tm-contact" placeholder="you@ or @handle"></div>
+        <div class="form-two">
+          <div class="field"><label for="tm-date">Preferred date</label><input class="input" id="tm-date" type="date"></div>
+          <div class="field"><label for="tm-people">People</label><input class="input" id="tm-people" type="number" min="1" value="1"></div>
+        </div>
+        <div class="field"><label for="tm-notes">Anything else</label><input class="input" id="tm-notes" placeholder="Occasion, location, questions"></div>
+        <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Copy my request</button>
+        <a href="https://ig.me/m/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-secondary btn-block dm-btn">Or DM @TangibleMemories4U</a>
+        <span class="order-echo" id="orderEcho">Your order right now: 2 prints · 1 sleeve · $25</span>
+        <span class="status-line" id="statusLine"></span>
+      </form>
+    </div>
+  </section>
+
+  <!-- 10. Footer -->
+  <footer class="footer">
+    <div class="footer-brand">
+      <span class="footer-word">Tangible Memories</span>
+      <span class="footer-tag">Instant moments. Real memories.</span>
+    </div>
+    <div class="footer-links">
+      <a href="https://instagram.com/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-icon" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></a>
+      <a href="https://cash.app/$calilhall" target="_blank" rel="noopener" class="btn btn-icon" aria-label="Cash App"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M16 7.5c-1-1.2-2.4-1.8-4-1.8-2 0-3.5 1-3.5 2.7 0 1.8 1.7 2.4 3.7 2.9 2 .5 3.8 1.1 3.8 3 0 1.9-1.7 3-3.9 3-1.7 0-3.2-.6-4.1-1.8"></path></svg></a>
+      <a href="https://TangibleMemories.shop" target="_blank" rel="noopener" class="btn btn-icon" aria-label="Website"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19"></path><path d="M12 2.5c2.6 3 2.6 16 0 19"></path></svg></a>
+      <span class="footer-handle">@TangibleMemories4U · TangibleMemories.shop</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  // ── Site configuration ─────────────────────────────────────────────
+  var config = {
+    printPrice: 10,
+    sleevePrice: 5,
+    deposit: 50,
+    handle: "@TangibleMemories4U",
+    cashtag: "$calilhall",
+    website: "TangibleMemories.shop",
+    depositLink: "",   // ← Stripe Payment Link URL for card/Apple Pay; empty falls back to Cash App
+    formEndpoint: ""    // ← Formspree/Resend/webhook URL; empty falls back to clipboard copy
+  };
+
+  var money = function(n){ return "$" + (Math.round(n*100)/100); };
+  var state = { prints: 2, sleeves: 1, sending: false, sent: false, error: "" };
+
+  // ── Marquee (duplicated once for seamless loop) ─────────────────────
+  var phrases = ["Limited slots this month","Instant camera. Instant prints.",
+    "Prints that last beyond a screen","Instant photography by Calil"];
+  var mq = document.getElementById("marquee");
+  var seq = phrases.concat(phrases);
+  seq.forEach(function(p){
+    var s = document.createElement("span"); s.textContent = p; mq.appendChild(s);
+    var sep = document.createElement("span"); sep.className = "sep"; sep.textContent = "✦"; mq.appendChild(sep);
+  });
+
+  // ── Deposit link ────────────────────────────────────────────────────
+  var depositBtn = document.getElementById("depositBtn");
+  if (config.depositLink) {
+    depositBtn.href = config.depositLink;
+    depositBtn.textContent = "Pay deposit";
+  } else {
+    depositBtn.href = "https://cash.app/" + config.cashtag;
+    depositBtn.textContent = "Send deposit on Cash App";
+  }
+
+  // ── Derived-value rendering ─────────────────────────────────────────
+  function total(){ return state.prints*config.printPrice + state.sleeves*config.sleevePrice; }
+  function orderLine(){
+    return state.prints + " print" + (state.prints===1?"":"s") + " · " +
+           state.sleeves + " sleeve" + (state.sleeves===1?"":"s");
+  }
+  function submitLabel(){
+    if (state.sending) return "Sending…";
+    if (state.sent) return config.formEndpoint ? "Request sent — talk soon" : "Request copied — talk soon";
+    return config.formEndpoint ? "Send my request" : "Copy my request";
+  }
+  function statusText(){
+    if (state.error) return state.error;
+    if (state.sending) return "Sending…";
+    if (state.sent) return config.formEndpoint
+      ? "Sent — you'll hear back today."
+      : "Copied — paste it into a DM to " + config.handle + " and send the deposit.";
+    return "";
+  }
+  function render(){
+    document.getElementById("printPriceLabel").textContent = money(config.printPrice);
+    document.getElementById("sleevePriceLabel").textContent = money(config.sleevePrice);
+    document.getElementById("printsCount").textContent = state.prints;
+    document.getElementById("sleevesCount").textContent = state.sleeves;
+    document.getElementById("totalLabel").textContent = money(total());
+    document.getElementById("orderEcho").textContent =
+      "Your order right now: " + orderLine() + " · " + money(total());
+    document.getElementById("submitBtn").textContent = submitLabel();
+    document.getElementById("submitBtn").disabled = state.sending;
+    document.getElementById("statusLine").textContent = statusText();
+  }
+
+  // ── Steppers ────────────────────────────────────────────────────────
+  document.querySelectorAll("[data-step]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var key = btn.getAttribute("data-step");
+      var dir = parseInt(btn.getAttribute("data-dir"), 10);
+      state[key] = Math.max(0, state[key] + dir);
+      state.sent = false; state.error = "";
+      render();
+    });
+  });
+
+  // ── Form submit ─────────────────────────────────────────────────────
+  function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  document.getElementById("bookForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var t = total();
+    var lines = [
+      "Session request — Tangible Memories",
+      "Name: " + (val("tm-name") || "—"),
+      "Contact: " + (val("tm-contact") || "—"),
+      "Preferred date: " + (val("tm-date") || "—"),
+      "People: " + (val("tm-people") || "1"),
+      "Order: " + state.prints + " prints + " + state.sleeves + " sleeves ($" + t + ")",
+      "Notes: " + (val("tm-notes") || "—")
+    ].join("\n");
+    var done = function(){ state.sent = true; state.sending = false; state.error = ""; render(); };
+    if (config.formEndpoint) {
+      state.sending = true; state.error = ""; render();
+      fetch(config.formEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: val("tm-name"), contact: val("tm-contact"), date: val("tm-date"),
+          people: val("tm-people"), prints: state.prints, sleeves: state.sleeves,
+          total: t, notes: val("tm-notes"), message: lines
+        })
+      }).then(function(r){
+        if (!r.ok) throw new Error("bad status"); done();
+      }).catch(function(){
+        state.sending = false; state.error = "Couldn't send — DM us instead and we'll sort it."; render();
+      });
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(lines).then(done, done);
+    } else { done(); }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

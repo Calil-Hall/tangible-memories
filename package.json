@@ -1,0 +1,12 @@
+{
+  "name": "tangible-memories",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Marketing + booking site for Tangible Memories — instant film photography by Calil.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
