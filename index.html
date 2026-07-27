@@ -112,7 +112,9 @@ a:hover{color:var(--color-accent-800);}
 .price-pair{display:flex;gap:28px;padding-top:6px;}
 .price-fig{font-family:var(--font-heading);font-size:30px;line-height:1;}
 .price-lbl{font-size:13px;color:var(--color-neutral-700);}
-.hero-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);}
+.hero-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);
+  background:var(--color-neutral-900);} /* dark backdrop: while the poster streams in, the
+  reserved space reads as part of the dark poster instead of a blank gap */
 .hero-img img{width:100%;height:auto;display:block;}
 /* Gallery lives inside the hero grid: column 1, row 2. Every item is pinned to
    an explicit column — a row-spanning item with an auto column would otherwise
@@ -170,7 +172,16 @@ a:hover{color:var(--color-accent-800);}
 .thumb-print{width:64px;height:78px;background:var(--color-neutral-100);border-radius:6px;
   padding:6px 6px 18px;box-shadow:var(--shadow-sm);flex:none;}
 .thumb-print>div{height:100%;background:var(--color-neutral-300);border-radius:3px;}
-.thumb-sleeve{width:64px;height:78px;background:var(--color-accent-2-200);border-radius:8px;flex:none;}
+/* Magnetic sleeve: a mini instant print tucked inside a clear pocket (sage border,
+   translucent fill) with a diagonal plastic sheen. */
+.thumb-sleeve{width:64px;height:78px;flex:none;position:relative;overflow:hidden;
+  background:var(--color-accent-2-100);border:2px solid var(--color-accent-2-400);
+  border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.thumb-sleeve>div{width:40px;height:54px;background:var(--color-neutral-100);border-radius:3px;
+  padding:4px 4px 12px;box-shadow:var(--shadow-sm);}
+.thumb-sleeve>div>div{height:100%;background:var(--color-neutral-300);border-radius:2px;}
+.thumb-sleeve::after{content:"";position:absolute;top:-25%;left:-45%;width:55%;height:150%;
+  background:rgba(255,255,255,.45);transform:rotate(24deg);pointer-events:none;}
 .order-row .meta{flex:1;}
 .order-row .meta .card-title{margin:0;}
 .order-row .meta .sub{font-size:14px;color:var(--color-neutral-700);}
@@ -183,6 +194,7 @@ a:hover{color:var(--color-accent-800);}
 .total-row .lbl{font-size:15px;color:var(--color-neutral-700);}
 .total-row .fig{font-family:var(--font-heading);font-size:36px;line-height:1;}
 .good-to-know{background:var(--color-accent-2-100);}
+.good-to-know .card-body{font-size:15px;flex:none;} /* match the site's base body size */
 
 .book{padding:72px 0 0;scroll-margin-top:80px;}
 .book-panel{background:var(--color-neutral-900);color:var(--color-neutral-100);
@@ -336,7 +348,7 @@ a:hover{color:var(--color-accent-800);}
       </div>
     </div>
     <div class="hero-img">
-      <img src="assets/hero-poster.png" alt="Tangible Memories — instant photography by Calil" width="1024" height="1536">
+      <img src="assets/hero-poster.jpg" alt="Tangible Memories — instant photography by Calil" width="1024" height="1536" fetchpriority="high">
     </div>
     <section id="gallery" class="gallery">
       <div class="gallery-head">
@@ -405,7 +417,7 @@ a:hover{color:var(--color-accent-800);}
           </div>
         </div>
         <div class="order-row">
-          <div class="thumb-sleeve"></div>
+          <div class="thumb-sleeve"><div><div></div></div></div>
           <div class="meta">
             <div class="card-title">Magnetic sleeve</div>
             <div class="sub"><span id="sleevePriceLabel">$5</span> each · fridge-ready</div>
@@ -425,6 +437,7 @@ a:hover{color:var(--color-accent-800);}
       <div class="card elev-sm good-to-know">
         <div class="card-kicker">Good to know</div>
         <p class="card-body">Prints are one of a kind — there's no negative and no digital file. Add sleeves for the ones going on a fridge or in a wallet.</p>
+        <p class="card-body">Photos take 5–10 minutes to fully develop — you'll watch them come to life in your hands.</p>
         <p class="card-body">Group sessions and events are quoted per shoot; ask when you request a slot.</p>
       </div>
     </div>
