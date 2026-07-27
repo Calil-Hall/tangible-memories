@@ -200,6 +200,9 @@ a:hover{color:var(--color-accent-800);}
 .deposit .cashtag{font-size:14px;color:var(--color-neutral-300);}
 .deposit .fine{font-size:14px;color:var(--color-neutral-400);}
 .book-form{display:flex;flex-direction:column;gap:16px;}
+/* The [hidden] attribute must beat the display:flex rules above/below —
+   without this, JS hiding the form/embed has no visible effect. */
+[hidden]{display:none !important;}
 .book-form label{color:var(--color-neutral-300);}
 .form-two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .dm-btn{border-color:rgba(245,234,216,.45);color:var(--color-neutral-100);}
