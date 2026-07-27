@@ -32,7 +32,30 @@ Single static HTML file, framework-free. Chosen because it's a small one-form ma
 step, hosts anywhere. Keep it that way unless the scope grows (e.g. a CMS-backed gallery), in which case
 Astro or Next.js static export is the intended path.
 
-## Hosting & deployment — LOCKED
+## Hosting & deployment — LIVE
+**Live at https://tangiblememories.shop** (verified loading over HTTPS, 2026-07-27).
+
+- **GitHub repo:** https://github.com/Calil-Hall/tangible-memories (public, branch `main`).
+- **Railway:** project `pleasing-victory` → service `tangible-memories`, env `production`, region US West.
+  Auto-deploys on push to `main`. Railway-provided domain: `tangible-memories-production.up.railway.app`.
+- **Target port: 8080.** Railway injects `PORT=8080`; `server.js` reads `process.env.PORT`.
+  The 3000 fallback is local-only — do NOT hardcode 3000 anywhere.
+- **DNS (Namecheap, BasicDNS):**
+  | Type | Host | Value |
+  |---|---|---|
+  | ALIAS | `@` | `wkdwyh27.up.railway.app` |
+  | TXT | `_railway-verify` | `railway-verify=6fab9da6ea9a1cd452b9a67c37d8fb81fe6cc502ecd477f195b5ada01abd2b9e` |
+  ALIAS (not CNAME) because CNAME is invalid at a domain apex. Both records required — with only
+  the ALIAS, Railway returns 404 until the TXT verifies ownership.
+- Note: Railway's dashboard lagged on "Waiting for DNS update" after the domain was already serving
+  correctly. Trust the live URL over the dashboard status.
+
+### Plan constraints — ACTION NEEDED
+- Railway **Trial**: showed "18 days or $5.00 left" on 2026-07-27. **The service goes offline when the
+  trial ends** — a paid plan is required to stay live.
+- Trial caps **1 custom domain**, already used by the apex. `www.tangiblememories.shop` cannot be added
+  without upgrading.
+
 **Host: Railway. Source of truth: a GitHub repo that Railway watches (push-to-deploy).**
 - Local git repo initialized on branch `main`. First commit: `64cf203`.
 - Railway builds with Nixpacks and runs `node server.js` (per `railway.json`); `server.js` reads
@@ -82,12 +105,16 @@ After any sandbox-side git write, tell the user to run:
 5. **Gallery uses placeholders** until real photos are supplied; swap them in with descriptive alt text.
 
 ## Open items (need input from Calil)
-1. **Push to GitHub + connect Railway** — repo is local-only; no remote configured yet. Top blocker for going live.
-2. Stripe (or other) account → a Payment Link for the $50 deposit, to put in `depositLink`.
-3. Where form submissions should go (email, Formspree/Resend endpoint, or a Sheet) → `formEndpoint`.
-4. Real session photos for the gallery, with alt text.
-5. City/location and availability to state on the page.
-6. Group/event pricing — quoted privately, or publish a range?
+1. **Railway trial expires (~14 Aug 2026)** — site goes offline without a paid plan. Top priority.
+2. ~~**Poster typo**~~ — RESOLVED 2026-07-27. Calil supplied a corrected poster; it now reads
+   "INSTANT PHOTOGRAPHY By Calil". Swapped into `assets/hero-poster.png` (1024×1536, md5 `8644ff94…`).
+   The source file `Hero Image.png` is gitignored to avoid committing a duplicate.
+3. Stripe (or other) account → a Payment Link for the $50 deposit, to put in `depositLink`.
+4. Where form submissions should go (email, Formspree/Resend endpoint, or a Sheet) → `formEndpoint`.
+   Until then the form copies the request to the clipboard rather than sending it.
+5. Real session photos for the gallery — still four "Session print coming soon" placeholders live on the site.
+6. City/location and availability to state on the page.
+7. Group/event pricing — quoted privately, or publish a range?
 
 ## Suggested connectors (not yet authorized)
 - **Stripe** — create the $50 deposit Payment Link → `depositLink`.
@@ -140,3 +167,19 @@ After any sandbox-side git write, tell the user to run:
   through the proxy. **Rendering must be done by Calil locally** (`npm start` → open localhost:3000).
   Do not claim visual fidelity, font loading, marquee motion, or the mobile book bar look correct
   until someone has actually looked at them.
+
+### 2026-07-27 — shipped: GitHub → Railway → custom domain, and FIRST REAL RENDER
+- Created the GitHub repo via browser (connector still unauthorized): `Calil-Hall/tangible-memories`,
+  public, empty at creation so it wouldn't conflict. Calil pushed from Terminal; 8 files landed,
+  2.28 MiB. Verified the file list on GitHub — no `.DS_Store`, no zip, no duplicate poster.
+- Railway deployed from `main`. Added custom domain `tangiblememories.shop`, target port **8080**
+  (auto-detected by Railway — this corrected my earlier guess of 3000).
+- Calil added the ALIAS + TXT records at Namecheap. **Verified https://tangiblememories.shop loads
+  the real site over HTTPS with a valid cert.**
+- **RESOLVED: the long-standing "never rendered" gap.** Loaded the live site in a real browser and
+  confirmed section by section: marquee, sticky nav, hero (Caprasimo + Figtree both loading), tag row,
+  manifesto, how-it-works, gallery, order builder, dark booking panel, footer. Interactively clicked
+  the steppers on production — 3 prints + 2 sleeves → **$40**, and the order echo tracked it correctly.
+- **Found: poster typo** "INSTANT PHOTOGRAPHHY" (see Open items #2).
+- **Still unverified: mobile.** Browser resize did not affect the render, so the sticky book bar has
+  never been seen. Needs a check on a real phone.
