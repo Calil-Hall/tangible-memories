@@ -19,12 +19,15 @@ session prints, build a print/sleeve order to see their total, and request a ses
 
 ## Files
 - `index.html` — the entire site (self-contained: inline CSS tokens + vanilla JS). Authoritative deliverable.
-- `assets/hero-poster.png` — client-supplied hero image (1024×1536), used uncropped.
+- `assets/hero-poster.png` — client-supplied hero image (1024×1536), used uncropped. **This exact
+  filename is what `index.html` references** — replace the file in place, don't rename it.
 - `assets/` — drop 4–8 square session photos here for the gallery when supplied.
 - `server.js` — zero-dependency Node static file server; binds to `$PORT` for hosting.
 - `railway.json` — Railway deploy config (Nixpacks build, `node server.js` start command).
 - `package.json` — `start` script + Node >=18 engine. No dependencies; nothing to `npm install`.
-- `.gitignore` — ignores `node_modules/`, `.env*`, logs, OS cruft.
+- `.gitignore` — ignores `node_modules/`, `.env*`, logs, OS cruft, plus `*.zip` and the loose
+  source copies of the poster (`Tangible Memories 2.png`, `Hero Image.png`) so ~5MB of duplicate
+  images stay out of the repo. Calil tends to drop source files into this folder — keep them ignored.
 - `README.md` — run/deploy instructions.
 
 ## Stack decision
@@ -67,17 +70,24 @@ Astro or Next.js static export is the intended path.
 - Keep this deployable as a plain static site: no build step, no dependencies. If a dependency is ever
   added, say so explicitly — it changes the deploy story.
 
-### Deploy steps (run by Calil in Terminal; cannot be done from inside a Claude session)
+### Shipping a change (the standing workflow)
+Claude edits files in the mounted folder; **Calil runs the push in Terminal.** Railway then redeploys
+automatically — no Railway step needed for ordinary changes.
 ```bash
 cd "/Users/calilhall/Downloads/Working folder/tangible-memories"
-gh repo create tangible-memories --public --source=. --push     # or: git remote add origin <url> && git push -u origin main
+find .git \( -name "*.lock" -o -name "tmp_obj_*" \) -delete
+git add -A
+git commit -m "<message>"
+git push
 ```
-Then in Railway: New Project → Deploy from GitHub repo → `tangible-memories`.
+If an asset is replaced under the same filename (e.g. the hero poster), tell Calil to hard-refresh
+(⌘⇧R) — browsers will otherwise serve the cached old file.
 
-**Known constraint:** the GitHub connector is not authorized and its OAuth cannot run in a
-non-interactive session, so Claude cannot create the remote, push, or trigger a deploy. All remote/git
-push work is handed to the user with exact commands. Do not claim a push or deploy happened without
-verifying `git remote -v` and `git log origin/main`.
+**Known constraint — git/GitHub:** the GitHub connector is still unauthorized (OAuth can't run in a
+non-interactive session), and the sandbox has no git credentials, so **Claude cannot push.** Claude
+*can* drive github.com through the Chrome MCP when signed in — that is how the repo was created.
+Never claim a push or deploy happened without verifying it (check the commit on github.com, the
+Railway deployment status, or the live URL).
 
 **Sandbox constraint:** git commands run through the sandbox mount cannot unlink files in `.git`,
 so they leave stale `.lock` / `tmp_obj_*` files behind that block the next git command on the Mac.
@@ -97,8 +107,12 @@ After any sandbox-side git write, tell the user to run:
 - `formEndpoint` — form POST target (Formspree/Resend/webhook). Empty → falls back to clipboard copy.
 
 ## Rules for this project
-1. **Verify before delivering.** Trace stepper/total/plural logic; render in a browser when possible.
-   No headless browser exists in-session — flag any unrendered visual work as unverified.
+1. **Verify before delivering.** Trace stepper/total/plural logic, then look at the result.
+   **Headless Chromium does NOT work in the sandbox** (missing `libXdamage.so.1`; no root to install
+   it; package mirror 403s through the proxy — all confirmed, don't retry). **Use the Chrome MCP
+   against the live URL instead** — that works and is how the site was finally verified. To confirm a
+   replaced asset actually shipped, `fetch()` it with a cache-buster and compare byte length or hash;
+   don't trust a screenshot that may be cached.
 2. **No unverifiable claims.** Don't invent prices, links, or business facts. The facts above are the source of truth.
 3. **Keep copy gear-generic** — never name a camera brand in page copy.
 4. **Don't break the single-file, no-build shape** without saying so and why.
@@ -183,3 +197,23 @@ After any sandbox-side git write, tell the user to run:
 - **Found: poster typo** "INSTANT PHOTOGRAPHHY" (see Open items #2).
 - **Still unverified: mobile.** Browser resize did not affect the render, so the sticky book bar has
   never been seen. Needs a check on a real phone.
+
+### 2026-07-27 — corrected hero poster shipped to production
+- Calil supplied a corrected poster as `Hero Image.png` in the project folder (2,360,030 bytes,
+  1024×1536, md5 `8644ff94…`). Read the image to confirm the fix before shipping: it now reads
+  **"INSTANT PHOTOGRAPHY / By Calil"** — the doubled H is gone. All other poster facts still match
+  the business facts above ($10 / $5, @TangibleMemories4U, TangibleMemories.shop, $calilhall).
+- Copied it over `assets/hero-poster.png` (verified matching md5 after the copy). **No HTML change
+  needed** — `index.html` already points at that path. Added `Hero Image.png` to `.gitignore` so the
+  source copy isn't committed twice.
+- Calil pushed `67d2090`; Railway auto-deployed and reported "Deployment successful" ~39s later.
+- **Verified in production three ways:** (1) Railway shows the deploy ACTIVE for that commit;
+  (2) `fetch()` of `/assets/hero-poster.png` with a cache-buster returns **2,360,030 bytes** — the new
+  file, not the old 2,441,815; (3) zoomed the live render and read the corrected text directly.
+- Also noted: Railway's domain label caught up to `tangiblememories.shop`, so its DNS verification
+  finished (it had been stuck on "Waiting for DNS update" while already serving correctly).
+- Unchanged/still open: Railway trial deadline, mobile sticky-bar check, gallery placeholders,
+  `formEndpoint` and `depositLink` both still empty.
+- Note on the poster: camera-brand marks are visible on the camera bodies in the image. This is
+  **acceptable** per the handoff — the rule constrains *page copy*, not the client's own photo.
+  Page copy remains generic. Do not "fix" this.

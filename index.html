@@ -114,6 +114,19 @@ a:hover{color:var(--color-accent-800);}
 .price-lbl{font-size:13px;color:var(--color-neutral-700);}
 .hero-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);}
 .hero-img img{width:100%;height:auto;display:block;}
+/* Gallery lives inside the hero grid: column 1, row 2. Every item is pinned to
+   an explicit column — a row-spanning item with an auto column would otherwise
+   be auto-placed FIRST and steal column 1 from the copy. */
+.hero-copy{grid-column:1;grid-row:1;}
+.hero>.hero-img{grid-column:2;grid-row:1/span 2;}
+.hero .gallery{grid-column:1;grid-row:2;padding:24px 0 0;}
+/* Background bubbles (same treatment as the "Pick a slot" cards) so the hero
+   text and gallery don't sit on bare background. Backgrounds/padding only. */
+.hero-copy{background:var(--color-surface);border:2px solid var(--color-accent-200);
+  border-radius:calc(var(--radius-lg)*1.15);padding:32px;box-shadow:var(--shadow-sm);}
+.hero .gallery{background:var(--color-surface);border:2px solid var(--color-accent-200);
+  border-radius:calc(var(--radius-lg)*1.15);padding:24px 26px 26px;box-shadow:var(--shadow-sm);}
+.hero .gallery .gallery-grid{grid-template-columns:repeat(2,1fr);}
 
 .tagrow{display:flex;flex-wrap:wrap;gap:12px;padding:34px 0 6px;}
 
@@ -205,8 +218,10 @@ a:hover{color:var(--color-accent-800);}
 @media (max-width:900px){
   .wrap{padding:0 18px 72px;}
   .hero{grid-template-columns:1fr;gap:28px;}
-  .hero-copy{order:1;}
+  .hero-copy{order:1;grid-column:auto;grid-row:auto;}
   .hero-img{order:2;}
+  .hero>.hero-img{grid-column:auto;grid-row:auto;}
+  .hero .gallery{order:3;grid-column:auto;grid-row:auto;}
   .hero h1{font-size:52px;}
   .manifesto{grid-template-columns:1fr;gap:20px;padding:32px;}
   .manifesto h2{font-size:32px;}
@@ -289,6 +304,16 @@ a:hover{color:var(--color-accent-800);}
     <div class="hero-img washed">
       <img src="assets/hero-poster.png" alt="Tangible Memories — instant photography by Calil" width="1024" height="1536">
     </div>
+    <section id="gallery" class="gallery">
+      <div class="gallery-head">
+        <h2>Recent sessions</h2>
+        <span class="gallery-note">Each one printed once, handed over the same day.</span>
+      </div>
+      <div class="gallery-grid">
+        <div class="mount" style="transform:rotate(-1.4deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+        <div class="mount" style="transform:rotate(1.1deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
+      </div>
+    </section>
   </header>
 
   <!-- 4. Tag row -->
@@ -296,7 +321,6 @@ a:hover{color:var(--color-accent-800);}
     <span class="tag tag-outline">Same-day prints</span>
     <span class="tag tag-outline">One of a kind</span>
     <span class="tag tag-outline">No digital files</span>
-    <span class="tag tag-outline">20-minute sessions</span>
     <span class="tag tag-outline">Groups welcome</span>
   </div>
 
@@ -326,20 +350,6 @@ a:hover{color:var(--color-accent-800);}
         <div class="card-title">You take it home</div>
         <p class="card-body">Choose your favourites, sleeve them, and walk out with them in your pocket.</p>
       </div>
-    </div>
-  </section>
-
-  <!-- 7. Gallery -->
-  <section id="gallery" class="gallery">
-    <div class="gallery-head">
-      <h2>Recent sessions</h2>
-      <span class="gallery-note">Each one printed once, handed over the same day.</span>
-    </div>
-    <div class="gallery-grid">
-      <div class="mount" style="transform:rotate(-1.4deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
-      <div class="mount" style="transform:rotate(1.1deg);margin-top:22px"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
-      <div class="mount" style="transform:rotate(-0.8deg)"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
-      <div class="mount" style="transform:rotate(1.6deg);margin-top:14px"><div class="frame"><div class="ph">Session print<br>coming soon</div></div></div>
     </div>
   </section>
 
@@ -394,10 +404,6 @@ a:hover{color:var(--color-accent-800);}
         <p class="book-lead">Limited slots each month. Send a request and you'll hear back the same day with a time and a spot to meet.</p>
         <div class="deposit">
           <div class="kick">DEPOSIT &amp; PAYMENT</div>
-          <div class="amt-row">
-            <span class="amt">$50</span>
-            <span class="amt-sub">holds the slot · comes off your total</span>
-          </div>
           <div class="pay-row">
             <a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Send deposit on Cash App</a>
             <span class="cashtag">$calilhall</span>
@@ -449,7 +455,6 @@ a:hover{color:var(--color-accent-800);}
   var config = {
     printPrice: 10,
     sleevePrice: 5,
-    deposit: 50,
     handle: "@TangibleMemories4U",
     cashtag: "$calilhall",
     website: "TangibleMemories.shop",
