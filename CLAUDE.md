@@ -348,3 +348,39 @@ $50 amount), plus two integration hooks:
   reachable via the fallback form, so it matters less — but the contact-card mailto and the
   Google-confirmation flow replace it.
 - Awaiting Calil: standard Terminal push → Railway redeploy.
+
+### 2026-07-27 — SHIPPED + live-verified; one bug found and fixed (needs one more push)
+- Calil pushed; deploy confirmed live at tangiblememories.shop (cache-busted fetch showed the new
+  markup — note: web_fetch WITHOUT a cache-buster served a stale pre-75ee672 page; always bust).
+- **Live render verified in Chrome:** nav shows Contact + cream-text "Book a session" (color fix
+  worked); booking panel is single-column with the embed-mode lead copy; the Google Calendar
+  slot picker renders INSIDE the panel ("Calil with Tangible Memories Photography", real Thu/Fri
+  slots). The iframe takes a few seconds to paint — blank cream box at first is just loading.
+- **Bug found on the live site: the request form still displayed above the calendar.** Cause: JS
+  sets the `hidden` attribute, but `.book-form{display:flex}` (author CSS) overrides the UA
+  stylesheet's `[hidden]{display:none}`. Lesson: never rely on the `hidden` attribute for elements
+  that have their own display rule. Fixed with `[hidden]{display:none !important;}` in the CSS.
+  Fix is local only — **needs another push**, then re-verify the form is gone above the calendar.
+- Observed on the booking page: Google shows "Phone call" as the meeting mode. **Confirmed
+  intentional by Calil:** slot bookings are phone consultations; he then manually books the
+  in-person session afterward. Do not "fix" this or change site copy to promise an in-person slot.
+
+### 2026-07-27 — [hidden] fix SHIPPED via GitHub web upload; full flow live-verified. Session closed.
+- Calil asked Claude to push directly. Sandbox git cannot push (no credentials), so used the
+  documented fallback: **GitHub web upload via Chrome MCP** — uploaded `index.html` on
+  github.com/Calil-Hall/tangible-memories → "Commit changes" to `main` as **`f4148af`**
+  ("Fix hidden attribute so booking form hides when calendar embed is active"). This path works and
+  is now precedented for shipping single-file changes without Calil's Terminal.
+- Railway auto-deployed within ~2 minutes. **Live verification (Chrome, cache-busted):** the booking
+  panel now shows deposit info → "Pick an open slot below" → the Google Calendar slot picker, with
+  the request form fully hidden. The `[hidden]{display:none !important}` fix behaves as intended.
+- **Booking model confirmed by Calil:** calendar slots = phone consultations; in-person sessions are
+  booked manually by Calil after the call. The schedule's "Phone call" mode is correct.
+- **IMPORTANT — local repo is now BEHIND origin:** commit `f4148af` (and the CLAUDE.md commit after
+  it) exist only on GitHub. Before Calil's next Terminal commit he must run, inside the project:
+  `find .git \( -name "*.lock" -o -name "tmp_obj_*" \) -delete && git pull`
+  (a stale `index.lock` from this session's sandbox git status also needs that sweep).
+- Web-fetch caveat re-confirmed: tangiblememories.shop WITHOUT a cache-buster serves a stale page;
+  always append `?v=<something>` when verifying deploys.
+- Still open: Railway trial deadline (~14 Aug), deposit amount + Stripe link, real gallery photos,
+  mobile render check, FormSubmit activation (now only relevant to the hidden fallback form).
