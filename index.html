@@ -101,8 +101,8 @@ a:hover{color:var(--color-accent-800);}
   align-items:center;justify-content:center;color:var(--color-neutral-100);font-family:var(--font-heading);font-size:15px;}
 .nav-word{font-family:var(--font-heading);font-size:20px;letter-spacing:-.01em;}
 .nav-links{display:flex;align-items:center;gap:22px;font-size:14px;}
-.nav-links a{color:var(--color-accent-700);}
-.nav-links a:hover{color:var(--color-accent-800);}
+.nav-links a:not(.btn){color:var(--color-accent-700);}
+.nav-links a:not(.btn):hover{color:var(--color-accent-800);}
 
 .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start;padding:52px 0 24px;}
 .hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px;}
@@ -205,6 +205,26 @@ a:hover{color:var(--color-accent-800);}
 .dm-btn{border-color:rgba(245,234,216,.45);color:var(--color-neutral-100);}
 .order-echo{font-size:13px;color:var(--color-neutral-400);}
 .status-line{font-size:13px;color:var(--color-accent-300);min-height:1em;}
+/* When a Google Calendar booking page is embedded, the panel goes single-column
+   so the calendar gets full width; the copy/deposit sit above it. */
+.book-panel.has-embed{grid-template-columns:1fr;}
+.book-embed{display:flex;flex-direction:column;gap:16px;}
+.book-embed-note{font-size:15px;color:var(--color-neutral-300);}
+.embed-frame{background:var(--color-neutral-100);border-radius:var(--radius-md);overflow:hidden;
+  box-shadow:var(--shadow-sm);}
+.embed-frame iframe{display:block;width:100%;min-height:700px;}
+
+.contact{padding:72px 0 0;scroll-margin-top:80px;}
+.contact-head{max-width:640px;margin:0 0 28px;}
+.contact-head h2{font-size:42px;line-height:1.02;margin:0 0 10px;}
+.contact-head p{font-size:17px;line-height:1.6;margin:0;color:var(--color-neutral-700);}
+.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.contact-card{display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--color-text);
+  transition:box-shadow .18s ease,transform .18s ease;}
+.contact-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.contact-kick{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-700);}
+.contact-val{font-family:var(--font-heading);font-size:22px;line-height:1.1;color:var(--color-text);word-break:break-word;}
+.contact-sub{font-size:14px;color:var(--color-neutral-700);}
 
 .footer{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;padding:44px 4px 0;}
 .footer-brand{display:flex;flex-direction:column;gap:6px;}
@@ -231,6 +251,7 @@ a:hover{color:var(--color-accent-800);}
   .prices-grid{grid-template-columns:1fr;}
   .book-panel{grid-template-columns:1fr;gap:32px;padding:36px;}
   .book-panel h2{font-size:32px;}
+  .contact-head h2{font-size:32px;}
   .nav-links a:not(.btn){display:none;}
   /* Spec: keep tap targets >=44px on touch. Desktop sizing is left untouched
      so the high-fidelity design is preserved above this breakpoint. */
@@ -243,6 +264,7 @@ a:hover{color:var(--color-accent-800);}
   .how-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:1fr;}
   .form-two{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
   .hero h1{font-size:44px;}
 }
 /* Sticky book bar — carried over from wireframe direction 1a. Mobile only:
@@ -282,6 +304,7 @@ a:hover{color:var(--color-accent-800);}
     <div class="nav-links">
       <a href="#gallery">Gallery</a>
       <a href="#prices">Prices</a>
+      <a href="#contact">Contact</a>
       <a href="#book" class="btn btn-primary">Book a session</a>
     </div>
   </nav>
@@ -424,6 +447,31 @@ a:hover{color:var(--color-accent-800);}
         <span class="order-echo" id="orderEcho">Your order right now: 2 prints · 1 sleeve · $25</span>
         <span class="status-line" id="statusLine"></span>
       </form>
+      <div class="book-embed" id="bookEmbed" hidden>
+        <div class="book-embed-note">Pick an open slot below — you'll get a Google Calendar confirmation.</div>
+        <div class="embed-frame"><iframe id="bookEmbedFrame" title="Book a Tangible Memories session" loading="lazy" style="border:0" width="100%" height="700" frameborder="0"></iframe></div>
+        <a href="https://ig.me/m/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-secondary btn-block dm-btn">Or DM @TangibleMemories4U</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9b. Contact -->
+  <section id="contact" class="contact">
+    <div class="contact-head">
+      <h2>Get in touch</h2>
+      <p>Questions about a session, a group shoot, or a custom idea? Reach out — you'll usually hear back the same day.</p>
+    </div>
+    <div class="contact-grid">
+      <a class="card elev-sm contact-card" href="https://instagram.com/TangibleMemories4U" target="_blank" rel="noopener">
+        <span class="contact-kick">Instagram · fastest</span>
+        <span class="contact-val">@TangibleMemories4U</span>
+        <span class="contact-sub">DM for questions and to hold a slot.</span>
+      </a>
+      <a class="card elev-sm contact-card" href="mailto:caliltangiblememories@gmail.com">
+        <span class="contact-kick">Email</span>
+        <span class="contact-val">caliltangiblememories@gmail.com</span>
+        <span class="contact-sub">Booking requests land here too.</span>
+      </a>
     </div>
   </section>
 
@@ -459,7 +507,15 @@ a:hover{color:var(--color-accent-800);}
     cashtag: "$calilhall",
     website: "TangibleMemories.shop",
     depositLink: "",   // ← Stripe Payment Link URL for card/Apple Pay; empty falls back to Cash App
-    formEndpoint: ""    // ← Formspree/Resend/webhook URL; empty falls back to clipboard copy
+    // Form POST target. FormSubmit's ajax endpoint emails each submission to the address
+    // in the URL. FIRST submission triggers a one-time activation email to that inbox —
+    // click the confirm link or nothing gets delivered. Empty falls back to clipboard copy.
+    formEndpoint: "https://formsubmit.co/ajax/caliltangiblememories@gmail.com",
+    // ← Google Calendar appointment-schedule embed URL. Get it in Google Calendar:
+    //   Booking pages → hover your page → Options → Sharing options → Website embed.
+    //   Paste the schedule URL here (must keep the "?gv=true" at the end). When set, the
+    //   booking section shows a live "pick a slot" calendar; when empty it shows the request form.
+    bookingUrl: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2MTxX9aTMl-BYnTNSilAmtTEICgaa3CFejrvq1fguagbrHTAi273Eac7Qlh1jKYbl2iUrqCT0p?gv=true"
   };
 
   var money = function(n){ return "$" + (Math.round(n*100)/100); };
@@ -483,6 +539,22 @@ a:hover{color:var(--color-accent-800);}
   } else {
     depositBtn.href = "https://cash.app/" + config.cashtag;
     depositBtn.textContent = "Send deposit on Cash App";
+  }
+
+  // ── Booking: Google Calendar embed vs. request form ─────────────────
+  // When a bookingUrl is configured, show the live appointment-schedule
+  // calendar and hide the manual request form; otherwise keep the form.
+  var bookForm = document.getElementById("bookForm");
+  var bookEmbed = document.getElementById("bookEmbed");
+  var bookPanel = document.querySelector(".book-panel");
+  if (config.bookingUrl) {
+    document.getElementById("bookEmbedFrame").src = config.bookingUrl;
+    bookForm.hidden = true;
+    bookEmbed.hidden = false;
+    if (bookPanel) bookPanel.classList.add("has-embed");
+    var lead = document.querySelector(".book-lead");
+    if (lead) lead.textContent =
+      "Limited slots each month. Pick an open time on the calendar and you're booked — a confirmation lands in your email.";
   }
 
   // ── Derived-value rendering ─────────────────────────────────────────
@@ -549,6 +621,7 @@ a:hover{color:var(--color-accent-800);}
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
+          _subject: "Session request — Tangible Memories",
           name: val("tm-name"), contact: val("tm-contact"), date: val("tm-date"),
           people: val("tm-people"), prints: state.prints, sleeves: state.sleeves,
           total: t, notes: val("tm-notes"), message: lines

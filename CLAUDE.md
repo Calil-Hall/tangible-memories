@@ -15,6 +15,9 @@ session prints, build a print/sleeve order to see their total, and request a ses
 - Deposit: a deposit via Cash App holds a slot, but **no amount is published** — the $50 figure was
   removed from the site 2026-07-27 at Calil's request. Don't reintroduce a number without asking.
 - Instagram: **@TangibleMemories4U** · Cash App: **$calilhall** · Site: **TangibleMemories.shop**
+- Business email: **caliltangiblememories@gmail.com** (owns the "Tangible Memories" Google Calendar;
+  verified from Calil's calendar-settings screenshot 2026-07-27). All routed email goes here, not to
+  Calil's personal gmail.
 - Sessions ~20 minutes; prints are one of a kind — **no digital files**.
 - Copy stays generic about gear ("instant film", "instant camera") — never name a camera manufacturer.
 
@@ -109,7 +112,16 @@ After any sandbox-side git write, tell the user to run:
 `printPrice=10`, `sleevePrice=5`, `handle`, `cashtag`, `website` (the `deposit` key was removed with the
 $50 amount), plus two integration hooks:
 - `depositLink` — Stripe Payment Link for the deposit (card/Apple Pay). Empty → falls back to Cash App.
-- `formEndpoint` — form POST target (Formspree/Resend/webhook). Empty → falls back to clipboard copy.
+- `formEndpoint` — form POST target. **SET (2026-07-27):** `https://formsubmit.co/ajax/caliltangiblememories@gmail.com`
+  — FormSubmit emails each JSON submission to that inbox. **Not live until activated:** the first
+  submission triggers a one-time confirmation email; the link in it must be clicked or nothing is
+  delivered. Empty → falls back to clipboard copy.
+- `bookingUrl` — Google Calendar **appointment-schedule** embed URL. When set, the `#book` section
+  swaps the request form for a live "pick a slot" calendar iframe (panel goes single-column) and the
+  DM link stays as a fallback; when empty, the request form shows. **SET (2026-07-27)** to Calil's
+  schedule "Calil with Tangible Memories Photography"
+  (`.../appointments/schedules/AcZssZ2M…CT0p?gv=true`) — booking page verified rendering in Chrome
+  with live 30-min slots, Eastern Time – Detroit. Keep the trailing `?gv=true`.
 
 ## Rules for this project
 1. **Verify before delivering.** Trace stepper/total/plural logic, then look at the result.
@@ -130,12 +142,18 @@ $50 amount), plus two integration hooks:
    The source file `Hero Image.png` is gitignored to avoid committing a duplicate.
 3. Stripe (or other) account → a Payment Link for the deposit, to put in `depositLink`. Also: what is
    the deposit amount now that $50 is off the site? Needed before a Payment Link can be created.
-4. Where form submissions should go (email, Formspree/Resend endpoint, or a Sheet) → `formEndpoint`.
-   Until then the form copies the request to the clipboard rather than sending it.
+4. ~~Where form submissions should go~~ — RESOLVED 2026-07-27: `formEndpoint` set to FormSubmit's
+   ajax endpoint for **caliltangiblememories@gmail.com**. Remaining sub-step: the first form
+   submission sends FormSubmit's one-time activation email to that inbox — Calil must click its
+   confirm link (after deploy, submit a test request to trigger it).
 5. Real session photos for the gallery — now **two** "Session print coming soon" placeholders (gallery was
    cut from 4 to 2 tiles when it moved into the hero, 2026-07-27).
 6. City/location and availability to state on the page.
 7. Group/event pricing — quoted privately, or publish a range?
+8. ~~Google Calendar booking link~~ — RESOLVED 2026-07-27. Calil created the appointment schedule
+   ("Calil with Tangible Memories Photography") and supplied the embed URL; `bookingUrl` is set and
+   the booking page verified rendering with live slots. Remaining: ship it (commit/push) and check
+   the embedded iframe on the live site + on mobile.
 
 ## Suggested connectors (not yet authorized)
 - **Stripe** — create the $50 deposit Payment Link → `depositLink`.
@@ -248,3 +266,85 @@ $50 amount), plus two integration hooks:
   "20-minute" tag, no "$50" anywhere, deposit section goes straight to the Cash App button.
 - Still open: mobile render check (incl. the ≤900px stack order copy → image → gallery), Railway trial
   deadline, deposit amount decision, `formEndpoint`/`depositLink`, real gallery photos.
+
+### 2026-07-27 — Google Calendar booking embed + Contact section (NOT yet committed/shipped)
+- **New feature: Google Calendar appointment-schedule booking.** Added a `bookingUrl` config key. When
+  set, the `#book` section swaps the manual request form for a live Google Calendar appointment-schedule
+  iframe (`?gv=true` embed URL), the `.book-panel` goes single-column so the calendar gets full width,
+  the lead copy updates to "pick an open time…", and the "DM @TangibleMemories4U" link stays as a
+  fallback. When `bookingUrl` is empty (the current default) the existing request form shows unchanged —
+  so **the live site is not affected until Calil pastes his link.** Verified the embed method against
+  Google Calendar Help / how-to guides (iframe src = `.../appointments/schedules/ID?gv=true`).
+- **New Contact section** (`id="contact"`, between `#book` and the footer) + a "Contact" nav link.
+  Three cards linking Instagram (@TangibleMemories4U, "fastest"), Cash App ($calilhall, deposit), and
+  the website. Uses only verified business facts — **no email invented** (none is published). Responsive:
+  3 cols → 1 col under 900px. Nav "Contact" link hides under 900px like the other text links.
+- **"Both" per Calil:** contact section added AND booking captures visitor contact — the Google
+  appointment schedule collects the guest's name/email itself; the fallback form already has a
+  name + "Email or Instagram" field.
+- **Config note:** `bookingUrl` is empty until Calil creates a Google Calendar Appointment Schedule and
+  pastes its Website-embed URL (keep the `?gv=true`). Personal Gmail = one free appointment schedule;
+  branded/multiple pages need Workspace. Logged as Open item #8.
+- **Verification (in-sandbox only):** anchors `#book`/`#contact`/`#prices`/`#gallery` all resolve to
+  single defined ids; inline JS parses via `new Function`; HTML tag structure balanced (Python
+  HTMLParser); no camera-brand / old-handle / gmail leakage (grep); embed defaults OFF so no visual
+  regression. `git diff --stat`: index.html +75/−1. **NOT rendered in a browser** (sandbox has no
+  headless Chromium, as documented) and the live booking calendar can't be seen until `bookingUrl` is
+  filled in — both remain unverified visually.
+- **NOT committed / NOT pushed / NOT deployed.** Awaiting Calil: (1) provide the Google booking URL,
+  (2) push via the standard Terminal workflow so Railway redeploys.
+
+### 2026-07-27 — email routing to caliltangiblememories@gmail.com (same session, still not shipped)
+- Calil's screenshot verified the business email/account: **caliltangiblememories@gmail.com** owns the
+  "Tangible Memories" Google Calendar (Eastern Time – Detroit; calilihall@gmail.com has edit access).
+  Recorded in Business facts.
+- **Contact section:** added a 4th card — mailto link to the business email ("Booking requests land
+  here too"). Grid now 4 → 2 (≤900px) → 1 (≤560px) columns.
+- **Form → email:** `formEndpoint` set to `https://formsubmit.co/ajax/caliltangiblememories@gmail.com`
+  (FormSubmit ajax endpoint: accepts the JSON POST the form already sends, no account needed —
+  verified against formsubmit.co/documentation). Added `_subject: "Session request — Tangible
+  Memories"` to the payload. Submit button now reads "Send my request" instead of "Copy my request".
+- **ACTIVATION REQUIRED:** FormSubmit delivers nothing until its one-time confirmation email (sent on
+  first submission) is confirmed from the inbox. After deploy, submit a test request, then click the
+  link in the email to caliltangiblememories@gmail.com. Unverified: FormSubmit's exact response
+  status on that first pre-activation submission — the form may show an error until activation is done.
+- **Booking tie-in:** the appointment schedule should be created under the caliltangiblememories@gmail.com
+  account so booking confirmations land there automatically. `bookingUrl` still empty — still waiting
+  on the Website-embed URL (Open item #8).
+- Verification: 3 email refs (mailto, visible text, endpoint); 4 contact cards; inline JS parses;
+  HTML balanced; submit-label logic traced in Node with the endpoint set. Not rendered; not
+  committed/pushed/deployed.
+
+### 2026-07-27 — contact trimmed to 2 cards, nav Book button color fix (still not shipped)
+- Per Calil: removed the **Website** and **Cash App** cards from the Get-in-touch section — it now has
+  Instagram + Email only (grid 2 cols → 1 under 560px). The Cash App **deposit flow in `#book` is
+  untouched** — the request was scoped to the contact section.
+- **Nav "Book a session" text color bug fixed:** `.nav-links a{color:accent-700}` came later in the
+  stylesheet and outspecified `.btn-primary`, so the nav button's text rendered dark terracotta instead
+  of the cream (`--color-bg`) the hero "Book your session" button shows. Scoped the nav link color to
+  `:not(.btn)` so the button inherits btn-primary's cream text. Lesson: nav-wide link colors must
+  exclude `.btn`.
+- **Calil supplied a regular-calendar embed code** (`calendar/embed?src=caliltangiblememories@gmail.com`).
+  NOT wired in: that embed only *displays* events — visitors can't book through it. `bookingUrl` needs
+  an **appointment-schedule** URL (`.../appointments/schedules/ID?gv=true`) from Booking pages →
+  Sharing options → Website embed. Told Calil the exact steps; still waiting on that URL (Open item #8).
+- Verified: 2 contact cards, 0 cash.app/website links inside `#contact`, deposit button still present
+  in `#book`, JS parses, HTML balanced. Not rendered/committed/deployed.
+
+### 2026-07-27 — bookingUrl set: live Google Calendar slot picker wired (awaiting push)
+- Calil supplied the appointment-schedule embed code; `bookingUrl` now set to
+  `https://calendar.google.com/calendar/appointments/schedules/AcZssZ2MTxX9aTMl-BYnTNSilAmtTEICgaa3CFejrvq1fguagbrHTAi273Eac7Qlh1jKYbl2iUrqCT0p?gv=true`.
+  The `#book` section will now show the live slot picker instead of the request form (form remains in
+  the markup as the fallback if `bookingUrl` is ever cleared).
+- **Verified the booking page itself in Chrome (real render):** titled "Calil with Tangible Memories
+  Photography", Eastern Time – Detroit, 30-minute slots visible (Thu/Fri 9:00am–9:30pm at check time).
+  Sandbox curl/web_fetch could not verify (proxy 403 / client-rendered empty shell) — Chrome MCP was
+  the working method, as documented.
+- Inline JS re-parsed OK after the edit.
+- **NOT yet verified: the iframe inside the site** — the site with the embed has not been rendered
+  (sandbox limitation) and not deployed. After Calil pushes: check tangiblememories.shop shows the
+  calendar in the dark booking panel, on desktop and phone (600–700px iframe height may need tuning),
+  and submit a test booking end-to-end. Also still pending: FormSubmit activation is now only
+  reachable via the fallback form, so it matters less — but the contact-card mailto and the
+  Google-confirmation flow replace it.
+- Awaiting Calil: standard Terminal push → Railway redeploy.
