@@ -216,6 +216,14 @@ a:hover{color:var(--color-accent-800);}
 .embed-frame{background:var(--color-neutral-100);border-radius:var(--radius-md);overflow:hidden;
   box-shadow:var(--shadow-sm);}
 .embed-frame iframe{display:block;width:100%;min-height:700px;}
+/* Google's booking widget needs more width than a phone-sized iframe gives it
+   (day columns clip). Below 900px, swap the iframe for a button that opens the
+   booking page directly — Google serves a proper mobile layout full-screen. */
+.book-open-btn{display:none;}
+@media (max-width:900px){
+  .embed-frame{display:none;}
+  .book-embed .book-open-btn{display:inline-flex;min-height:44px;}
+}
 
 .contact{padding:72px 0 0;scroll-margin-top:80px;}
 .contact-head{max-width:640px;margin:0 0 28px;}
@@ -453,6 +461,7 @@ a:hover{color:var(--color-accent-800);}
       <div class="book-embed" id="bookEmbed" hidden>
         <div class="book-embed-note">Pick an open slot below — you'll get a Google Calendar confirmation.</div>
         <div class="embed-frame"><iframe id="bookEmbedFrame" title="Book a Tangible Memories session" loading="lazy" style="border:0" width="100%" height="700" frameborder="0"></iframe></div>
+        <a id="bookEmbedOpen" class="btn btn-primary btn-block book-open-btn" target="_blank" rel="noopener">Pick a time on the booking calendar</a>
         <a href="https://ig.me/m/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-secondary btn-block dm-btn">Or DM @TangibleMemories4U</a>
       </div>
     </div>
@@ -552,6 +561,7 @@ a:hover{color:var(--color-accent-800);}
   var bookPanel = document.querySelector(".book-panel");
   if (config.bookingUrl) {
     document.getElementById("bookEmbedFrame").src = config.bookingUrl;
+    document.getElementById("bookEmbedOpen").href = config.bookingUrl;
     bookForm.hidden = true;
     bookEmbed.hidden = false;
     if (bookPanel) bookPanel.classList.add("has-embed");
