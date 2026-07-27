@@ -12,7 +12,8 @@ session prints, build a print/sleeve order to see their total, and request a ses
 - Name: **Tangible Memories** · tagline **"Instant moments. Real memories."**
 - Photographer: **Calil** ("Instant photography by Calil")
 - Pricing: **$10 per print**, **$5 per magnetic photo sleeve**. No package pricing published.
-- Deposit: **$50** holds a slot (comes off the total).
+- Deposit: a deposit via Cash App holds a slot, but **no amount is published** — the $50 figure was
+  removed from the site 2026-07-27 at Calil's request. Don't reintroduce a number without asking.
 - Instagram: **@TangibleMemories4U** · Cash App: **$calilhall** · Site: **TangibleMemories.shop**
 - Sessions ~20 minutes; prints are one of a kind — **no digital files**.
 - Copy stays generic about gear ("instant film", "instant camera") — never name a camera manufacturer.
@@ -41,6 +42,9 @@ Astro or Next.js static export is the intended path.
 - **GitHub repo:** https://github.com/Calil-Hall/tangible-memories (public, branch `main`).
 - **Railway:** project `pleasing-victory` → service `tangible-memories`, env `production`, region US West.
   Auto-deploys on push to `main`. Railway-provided domain: `tangible-memories-production.up.railway.app`.
+  **Caveat (2026-07-27):** after the `75ee672` push, no deploy fired for 4+ minutes until Calil went into
+  the Railway dashboard; it then deployed and verified fine. If a push doesn't go live within ~2 min,
+  send Calil to the dashboard's Deployments tab rather than assuming it will catch up.
 - **Target port: 8080.** Railway injects `PORT=8080`; `server.js` reads `process.env.PORT`.
   The 3000 fallback is local-only — do NOT hardcode 3000 anywhere.
 - **DNS (Namecheap, BasicDNS):**
@@ -102,8 +106,9 @@ After any sandbox-side git write, tell the user to run:
 - High-fidelity: colors, type, spacing, radii and copy are final. Recreate pixel-closely.
 
 ## Configuration (top of the `<script>` in index.html)
-`printPrice=10`, `sleevePrice=5`, `deposit=50`, `handle`, `cashtag`, `website`, plus two integration hooks:
-- `depositLink` — Stripe Payment Link for the $50 deposit (card/Apple Pay). Empty → falls back to Cash App.
+`printPrice=10`, `sleevePrice=5`, `handle`, `cashtag`, `website` (the `deposit` key was removed with the
+$50 amount), plus two integration hooks:
+- `depositLink` — Stripe Payment Link for the deposit (card/Apple Pay). Empty → falls back to Cash App.
 - `formEndpoint` — form POST target (Formspree/Resend/webhook). Empty → falls back to clipboard copy.
 
 ## Rules for this project
@@ -123,10 +128,12 @@ After any sandbox-side git write, tell the user to run:
 2. ~~**Poster typo**~~ — RESOLVED 2026-07-27. Calil supplied a corrected poster; it now reads
    "INSTANT PHOTOGRAPHY By Calil". Swapped into `assets/hero-poster.png` (1024×1536, md5 `8644ff94…`).
    The source file `Hero Image.png` is gitignored to avoid committing a duplicate.
-3. Stripe (or other) account → a Payment Link for the $50 deposit, to put in `depositLink`.
+3. Stripe (or other) account → a Payment Link for the deposit, to put in `depositLink`. Also: what is
+   the deposit amount now that $50 is off the site? Needed before a Payment Link can be created.
 4. Where form submissions should go (email, Formspree/Resend endpoint, or a Sheet) → `formEndpoint`.
    Until then the form copies the request to the clipboard rather than sending it.
-5. Real session photos for the gallery — still four "Session print coming soon" placeholders live on the site.
+5. Real session photos for the gallery — now **two** "Session print coming soon" placeholders (gallery was
+   cut from 4 to 2 tiles when it moved into the hero, 2026-07-27).
 6. City/location and availability to state on the page.
 7. Group/event pricing — quoted privately, or publish a range?
 
@@ -217,3 +224,27 @@ After any sandbox-side git write, tell the user to run:
 - Note on the poster: camera-brand marks are visible on the camera bodies in the image. This is
   **acceptable** per the handoff — the rule constrains *page copy*, not the client's own photo.
   Page copy remains generic. Do not "fix" this.
+
+### 2026-07-27 — hero-gallery layout, card bubbles, $50 removed — shipped as `75ee672`
+- **Layout:** "Recent sessions" moved out of its standalone section into the hero grid — column 1 row 2,
+  directly under the copy/prices, with the hero image pinned to column 2 spanning both rows. Gallery cut
+  from 4 tiles to 2. Standalone gallery section deleted; `id="gallery"` moved with the block so nav anchors
+  still resolve. Original `.gallery` classes reused — no font changes.
+- **CSS grid lesson (cost two failed attempts):** an item with a definite `grid-row` but *auto* column is
+  auto-placed **before** fully-auto items, so `grid-row:1/span 2` on the image stole column 1 and pushed
+  the copy right. Worse, I twice told Calil the layout was fine from reading the source and blamed
+  caching/viewport — his screenshots were correct. **Pin every hero-grid child to an explicit column/row**
+  (now done: copy c1r1, image c2 r1–2, gallery c1r2; reset to auto + `order` under 900px), and never assert
+  rendered layout from source order.
+- **Styling:** hero copy and in-hero gallery got card-style "bubbles" (surface bg, 2px accent-200 border,
+  large radius, sm shadow — same treatment as the how-it-works cards) so text doesn't sit on bare background.
+- **Content removals (Calil's requests):** "20-minute sessions" tag from the tag row; the "$50 · holds the
+  slot · comes off your total" row and the `deposit: 50` config key. Deposit flow itself (kick, Cash App
+  button, fine print) kept. Business facts + config sections above updated to match.
+- **Shipped:** committed `75ee672` from the sandbox (also swept in this file's prior-session doc edits);
+  Calil cleared the stale `.git` locks and pushed. Auto-deploy did NOT fire initially — see hosting caveat —
+  but after Calil opened the Railway dashboard the build went out.
+- **Verified live** by fetching https://tangiblememories.shop: 2-tile gallery inside the hero, no
+  "20-minute" tag, no "$50" anywhere, deposit section goes straight to the Cash App button.
+- Still open: mobile render check (incl. the ≤900px stack order copy → image → gallery), Railway trial
+  deadline, deposit amount decision, `formEndpoint`/`depositLink`, real gallery photos.
