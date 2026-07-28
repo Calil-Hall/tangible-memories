@@ -23,8 +23,10 @@ session prints, build a print/sleeve order to see their total, and request a ses
 
 ## Files
 - `index.html` — the entire site (self-contained: inline CSS tokens + vanilla JS). Authoritative deliverable.
-- `assets/hero-poster.png` — client-supplied hero image (1024×1536), used uncropped. **This exact
-  filename is what `index.html` references** — replace the file in place, don't rename it.
+- `assets/hero-poster.jpg` — the hero image `index.html` references since `0913bec` (2026-07-27):
+  a 226KB progressive JPEG (q82) derived from the client's 2.36MB PNG for mobile load speed.
+  If Calil supplies a new poster, re-compress it the same way and replace the **.jpg** in place.
+  `assets/hero-poster.png` (the old full-size original) is still in the repo but unreferenced.
 - `assets/` — drop 4–8 square session photos here for the gallery when supplied.
 - `server.js` — zero-dependency Node static file server; binds to `$PORT` for hosting.
 - `railway.json` — Railway deploy config (Nixpacks build, `node server.js` start command).
@@ -33,6 +35,20 @@ session prints, build a print/sleeve order to see their total, and request a ses
   source copies of the poster (`Tangible Memories 2.png`, `Hero Image.png`) so ~5MB of duplicate
   images stay out of the repo. Calil tends to drop source files into this folder — keep them ignored.
 - `README.md` — run/deploy instructions.
+
+## Print assets (separate from the website)
+Calil occasionally asks for **print** deliverables built from the same artwork. These are NOT part of
+the site and never get committed to this repo.
+- **Vinyl banner** — 26x50 in at 150 DPI = **3900x7500 px**, padded out from the hero artwork.
+  Latest deliverable: `IMG_1534_fixed.png` (lives in the session outputs folder, not the repo).
+- **Text repairs on print artwork:** match cap height to neighboring capitals (68px on this banner),
+  baseline-align, keep the left edge on the existing text column, and sample the local background +
+  noise when patching so the seam is invisible. **Poppins Medium** is the closest match to the
+  banner's face (beat Regular, DM Sans, Montserrat).
+- Verify print edits with a **pixel diff** — the change must be confined to the patched region and
+  every other pixel byte-identical to the source.
+- **Do not confuse the two:** `assets/hero-poster.jpg` is the live site image; banner files are
+  separate and editing one never touches the other.
 
 ## Stack decision
 Single static HTML file, framework-free. Chosen because it's a small one-form marketing site — no build
@@ -146,8 +162,10 @@ $50 amount), plus two integration hooks:
    ajax endpoint for **caliltangiblememories@gmail.com**. Remaining sub-step: the first form
    submission sends FormSubmit's one-time activation email to that inbox — Calil must click its
    confirm link (after deploy, submit a test request to trigger it).
-5. Real session photos for the gallery — now **two** "Session print coming soon" placeholders (gallery was
-   cut from 4 to 2 tiles when it moved into the hero, 2026-07-27).
+5. Real session photos for the gallery — still **two** "Session print coming soon" placeholders.
+   As of 2026-07-28 the plan is written (`../gallery-plan.md`) and the three crop treatments are
+   rendered (`../gallery-crop-options.html`). Blocked on: consent for the people in the posts,
+   Calil's original photo files, and a treatment choice (A recommended).
 6. City/location and availability to state on the page.
 7. Group/event pricing — quoted privately, or publish a range?
 8. ~~Google Calendar booking link~~ — RESOLVED 2026-07-27. Calil created the appointment schedule
@@ -384,3 +402,154 @@ $50 amount), plus two integration hooks:
   always append `?v=<something>` when verifying deploys.
 - Still open: Railway trial deadline (~14 Aug), deposit amount + Stripe link, real gallery photos,
   mobile render check, FormSubmit activation (now only relevant to the hidden fallback form).
+
+### 2026-07-27 — mobile calendar fix shipped (`f0e9390`)
+- Calil's phone screenshot showed the Google booking widget cramped inside the narrow iframe:
+  day columns squeezed, slot pills clipped at the right edge. The widget needs more width than a
+  phone-sized iframe provides.
+- Fix: ≤900px the `.embed-frame` is hidden and a full-width `btn-primary` ("Pick a time on the
+  booking calendar", `#bookEmbedOpen`, href = `bookingUrl`, new tab) shows instead — Google serves
+  its proper mobile layout when it owns the whole screen. Desktop keeps the inline iframe.
+- Shipped via GitHub web upload (`f0e9390`); Railway deployed. **Verified on the live site via
+  DOM/CSS inspection** (button present with correct href/text; desktop-hide + mobile-swap rules all
+  in the served page). NOT verified visually at phone width — the Chrome MCP window won't shrink
+  below desktop size (re-confirmed; resize_window snaps back). Awaiting Calil's phone check.
+- **Local repo is 1 commit behind origin again** (`f0e9390`, index.html only). Local index.html is
+  byte-identical to it; local CLAUDE.md has newer content NOT on origin. Next Terminal session:
+  `git checkout -- index.html && git pull` (restores nothing of value, fast-forwards cleanly,
+  keeps the CLAUDE.md edits to ride along with the next commit). Do NOT restore CLAUDE.md.
+
+### 2026-07-27 — hero "washed" filter removed (`5b5f8fa`)
+- Calil asked why the hero looked faded vs. the file he supplied. Cause: the handoff's `.washed`
+  class on `.hero-img` (`saturate(.6) contrast(.85) brightness(1.1) opacity(.94)`) — an intentional
+  instant-film fade in the original design, removed now at Calil's request. The `.washed` CSS rule
+  is still defined but unused (like `.amt-row`). **Design-system note: the hero poster now shows at
+  full color — do not re-add `washed` without asking.**
+- Shipped via GitHub web (`5b5f8fa`); verified live: `.hero-img` classList has no `washed`,
+  computed filter is `none`, and the rendered poster shows full contrast.
+- Local repo again 1 commit behind (index.html only, byte-identical). Same sync as before:
+  `git checkout -- index.html && git pull` — do NOT restore CLAUDE.md.
+
+### 2026-07-27 — nav unpinned (`0f2e1ce`)
+- Per Calil: the header bar should stay at the top of the page, not follow on scroll. Removed
+  `position:sticky;top:14px;z-index:5;` from `.nav` (now static). **Design note: the nav is
+  intentionally non-sticky — don't re-add sticky without asking.** Side effect to know: above 900px
+  the "Book a session" button now scrolls away too (the ≤900px sticky book-bar is unaffected and
+  still provides an always-visible Book control on mobile). `scroll-margin-top` on sections is now
+  slightly generous but harmless.
+- Shipped via GitHub web (`0f2e1ce`); verified live: computed `.nav` position is `static`, and a
+  mid-page screenshot shows no bar following the scroll.
+- Local again 1 commit behind (index.html only, byte-identical): `git checkout -- index.html && git pull`.
+
+### 2026-07-27 — mobile blank-space diagnosis + 4 fixes shipped (`509b0f0`, `0913bec`)
+- **Mobile "blank space" under the hero was a slow-loading image, not layout.** The poster was a
+  2.36MB PNG; PNGs paint top-down, so on cellular the reserved space (from width/height attrs)
+  showed a cream gap under the partly-painted image. Fix: converted to **progressive JPEG q82 —
+  226KB (10x smaller)** at `assets/hero-poster.jpg`; `index.html` now references the .jpg with
+  `fetchpriority="high"`; `.hero-img` got a `--color-neutral-900` background so any brief loading
+  gap reads as the poster's dark backdrop. The old `hero-poster.png` is still in the repo, now
+  unreferenced — candidate for deletion to slim the repo (~2.4MB dead).
+- **Good to know**: `card-body` in that card bumped to 15px (site base body size — user-requested,
+  overriding the old no-font-changes rule for this card only) with `flex:none`; added the line
+  "Photos take 5–10 minutes to fully develop — you'll watch them come to life in your hands."
+- **Magnetic sleeve thumb**: replaced the flat sage box with CSS art — mini instant print inside a
+  sage-bordered translucent pocket with a diagonal plastic sheen (`.thumb-sleeve` + nested divs +
+  `::after`). Markup changed to `<div class="thumb-sleeve"><div><div></div></div></div>`.
+- Shipped as two web commits (jpg first so the reference never 404s): `509b0f0` then `0913bec`.
+- **Verified live (desktop Chrome):** hero-poster.jpg loaded (1024x1536), heroBg rgb(46,43,37),
+  Good to know 3 paragraphs at body size incl. the 5–10 min line, sleeve pocket art rendering.
+  Mobile still needs Calil's phone check (viewport can't be shrunk here) — but the root cause was
+  bandwidth, and the payload is now 10x smaller.
+- Local behind origin by 2 (index.html + new assets/hero-poster.jpg). Sync:
+  `git checkout -- index.html && git pull` (CLAUDE.md stays dirty by design).
+
+### 2026-07-27 — vinyl banner: blurry "W" replaced (print asset — NOT the website)
+- Scope: the 26x50 in vinyl banner file (3900x7500 px, 150 DPI, padded from the hero artwork in a
+  prior session). The capital W added to "Website:" back then was undersized (cap ~56px vs the 68px
+  of surrounding capitals) and blurry.
+- Fix: old W patched out (background sampled locally + matched noise, seam invisible); new W rendered
+  sharp from **Poppins Medium** — best glyph match this round vs Regular / DM Sans / Montserrat — cap
+  height 68px matched to the "S" in "Socials:", baseline-aligned, left edge on the text column.
+- **Known trade-off:** a full-proportion W at that cap height is ~91px wide but only ~64px of slot
+  exists before the "e", so the W is condensed to ~70% width to avoid collision. Reads naturally at
+  banner size. Alternative (full-width W + "ebsite:" nudged right) offered, not taken up.
+- Verified by pixel diff: changes confined to an 85x93px region around the W; every other pixel
+  byte-identical to the source. Deliverable: `IMG_1534_fixed.png` (session outputs folder — the
+  scratch outputs dir is cleared between sessions, so re-request the source if it's needed again).
+- Reminder: this is the **print banner only** — `assets/hero-poster.jpg` on the live site is a
+  separate file and untouched. No commit, no push, no deploy; the repo is unchanged by this work.
+- Website state is unchanged from the `509b0f0` / `0913bec` entry above: local repo still 2 commits
+  behind origin (`git checkout -- index.html && git pull`; do NOT restore CLAUDE.md).
+
+### 2026-07-28 — Instagram posts → gallery: three crop treatments built (NOTHING shipped)
+- Scope: replacing the two "Session print coming soon" placeholders with real work from
+  **@TangibleMemories4U**. **The repo is unchanged** — no edit to `index.html`, no new assets,
+  no commit. Both deliverables live in the Working folder *root*, outside this repo, on purpose:
+  `gallery-plan.md` (the workflow) and `gallery-crop-options.html` (the visual comparison).
+- **The account has 3 posts**, all 2026-07-28, 1080×1440, each a photo of a single instant print
+  on light wood: living-room group, night-out group (print held landscape), dinner-table group.
+- **Reading Instagram:** login-walled and client-rendered — `web_fetch` returns an empty shell.
+  Use the **Chrome MCP** against Calil's logged-in session. Confirmed working.
+- **Getting image bytes out of the browser:** `javascript_tool` returning a long base64 data URL is
+  **blocked** by a security filter. The method that works: render the image alone against a magenta
+  background filling the viewport, `computer` screenshot with `save_to_disk:true`, then trim the
+  magenta in Python — the saved file is readable from the sandbox. Gives ~619×825 per post.
+  Screenshots come back 1456×825 regardless of DPR 2, so detect edges by colour, never by assuming
+  screenshot px == CSS px.
+- **Auto-detecting the print's photo window does not work** (white threshold + connected components
+  — the wood is too bright, the borders too warm). Measure by eye off a gridline overlay. Rects,
+  as fractions of the full frame: living room `.128/.160/.690/.690`, night out
+  `.120/.341/.647/.352`, dinner table `.170/.148/.648/.652`.
+- **Treatment recommendation: A — crop to the photograph inside the print.** `.mount` is already a
+  white print frame with a square window, so using the full wood-table shot (B) nests a print inside
+  a print and shrinks the actual photo; dropping the mount (C) is the only option that changes CSS
+  and it abandons the page's print motif. Verified by rendering all three in Chrome.
+- **Export spec when it does ship:** crop → square centre-crop → **600×600 progressive JPEG q82,
+  under 120KB**, as `assets/session-01.jpg` etc.; `<img>` gets explicit `width`/`height` (the mobile
+  blank-space bug was unreserved space), no `loading="lazy"` since the gallery is above the fold.
+- **Colour check:** CDN original vs canvas re-encode rendered side by side — identical. The pale
+  blue cast is in the photographs, not an ICC/P3 conversion problem. Don't "correct" it.
+- **Blockers, all with Calil:** (1) **consent** — every post shows identifiable people at private
+  events and the homepage is a wider audience than Instagram; asked, unanswered. (2) original photo
+  files — Instagram's copies are too soft for a 600×600 tile. (3) treatment not chosen.
+- Unverified: `gallery-crop-options.html` has not been opened in a browser (Chrome MCP can't load
+  `file://`). It was checked structurally — balanced tags, all 15 data URIs decode to valid JPEG,
+  tile counts correct — and an equivalent layout was rendered in Chrome and screenshotted.
+
+### 2026-07-28 (part 2) — real gallery tiles built and wired in (NOT committed/pushed/deployed)
+- Calil chose **treatment A** and supplied the phone originals (2268×4032) into `assets/`:
+  `IMG_1548` = living room, `IMG_1544` = dinner table, `IMG_1542` = night out (landscape print).
+  These are **gitignored** (`assets/IMG_*.jpg`) along with scratch crops (`assets/_*.png`,
+  `assets/*_grid.png`) — ~4.7MB that must never enter the repo. The sandbox mount cannot delete
+  files, so the scratch PNGs are still sitting in `assets/`; harmless, but Calil can bin them.
+- **Print-window rects, measured on the originals** (fractions of the full 2268×4032 frame; the
+  Instagram-derived rects from part 1 do NOT transfer — different framing and aspect):
+
+  | Photo | file | x | y | w | h |
+  |---|---|---|---|---|---|
+  | Living room | IMG_1548 | .135 | .182 | .708 | .540 |
+  | Dinner table | IMG_1544 | .157 | .224 | .679 | .502 |
+  | Night out (landscape) | IMG_1542 | .121 | .366 | .683 | .282 |
+
+  Applied with a 0.8% inset (0.45% vertical) to clear the white border, since the prints sit
+  slightly rotated in the phone shots. Auto-detection still doesn't work — measure by eye off a
+  gridline overlay, then render the crop and look at it.
+- **Shipped tile spec (now real, not just planned):** crop → square centre-crop **with a small
+  downward bias** on the portrait prints (~70–90px of the original) so the group sits centred
+  instead of under empty wall → 600×600 progressive JPEG q82. Result: `assets/session-01.jpg`
+  (living, 37KB), `session-02.jpg` (dinner, 54KB), `session-03.jpg` (night, 49KB).
+- **`index.html`:** both `.ph` placeholders replaced with `<img … width="600" height="600" alt="…">`.
+  Explicit dimensions are deliberate — the mobile blank-space bug was unreserved space. No
+  `loading="lazy"`: the gallery is inside the hero, above the fold. Placed **session-02 (left) and
+  session-03 (right)**; session-01 is exported and one line away if Calil wants the swap.
+- **Correction to a claim made earlier the same day:** the landscape night-out print does **not**
+  lose a person off each edge in a square tile — the margin lost is wall. The wrong call came from
+  eyeballing the low-res Instagram copy instead of cutting the crop first. Cut, then judge.
+- Verification: HTML balanced; 0 placeholders left; both `<img>` tags re-parsed with correct dims
+  and alt; one `id="gallery"`; 2 mounts; inline JS passes `node --check`; all three JPEGs confirmed
+  600×600 progressive; `git check-ignore` confirms the originals are excluded; `git status` shows
+  only `.gitignore`, `CLAUDE.md`, `index.html` + the three new session JPEGs.
+- **NOT rendered in a browser. NOT committed, pushed, or deployed** — the live site still shows the
+  placeholders. Proof for Calil: `../gallery-preview.html` (outside the repo).
+- Stale `.git/index.lock` left behind again: run the documented `find .git … -delete` sweep before
+  the next git command. Local is also still 2 commits behind origin.

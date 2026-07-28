@@ -13,3 +13,10 @@ npm-debug.log*
 *.zip
 Tangible Memories 2.png
 Hero Image.png
+
+# Gallery source photos + scratch crops. The shipped tiles are assets/session-*.jpg;
+# these are the full-size phone originals they were cut from (~1.5MB each) and the
+# working files used to find the crop. Kept locally, never committed.
+assets/IMG_*.jpg
+assets/_*.png
+assets/*_grid.png
