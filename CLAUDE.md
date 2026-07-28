@@ -553,3 +553,28 @@ $50 amount), plus two integration hooks:
   placeholders. Proof for Calil: `../gallery-preview.html` (outside the repo).
 - Stale `.git/index.lock` left behind again: run the documented `find .git … -delete` sweep before
   the next git command. Local is also still 2 commits behind origin.
+
+### 2026-07-28 (part 3) — SHIPPED to GitHub; Railway deploy blocked by a platform incident
+- Uploaded via the Chrome/GitHub-web path in two commits, images first so the markup never 404s:
+  **`b991316`** (`assets/session-01..03.jpg`) then **`a64267b`** (`index.html`, `.gitignore`,
+  `CLAUDE.md`). Both confirmed on the repo page.
+- **Railway did not deploy either one.** Its dashboard shows *"Builds are delayed. We have pushed a
+  fix and are now monitoring the incident."* and the service's Deployments tab has no queued or
+  building deploy — ACTIVE is still the previous day's. Live site checked four times over ~30 min
+  with cache-busters: 0 gallery `<img>`, 2 placeholders, and `assets/session-02.jpg` returns
+  **`text/html` 38950 bytes** — `server.js`'s index.html fallback, so the file genuinely isn't on
+  the box. **Do not use Railway's "Redeploy" to fix this:** it re-runs the same old commit. Once the
+  incident clears, re-check the live URL; if still stuck, Calil opens the dashboard (the nudge that
+  worked for `75ee672`).
+- Trial counter now reads **"17 days or $4.96 left."**
+- **Social kit (NOT part of the site, never committed)** lives at `../social-kit/`: `make-post.py`
+  wraps any session photo in a white instant-print mount on the brand cream and exports
+  1080×1350 / 1080×1080 / 1080×1920, with `--grid` and `--crop` helpers so Calil can add photos
+  himself. Plus `README.md` and `posting-schedule.md`. Treat it like the vinyl banner — same
+  artwork lineage, different deliverable, and editing one never touches the other.
+- **Brand fonts in the sandbox — solved, reuse this.** Caprasimo and Figtree aren't installed and
+  font files can't be fetched. Render the strings in **Chrome** (Google Fonts load there), screenshot
+  to disk, then recover a clean alpha mask in Python via `alpha = (bg − px) / (bg − fg)` per channel
+  against the known background and text colour, and repaint at the exact brand hex. Real brand type,
+  no JPEG halo. Cached in `../social-kit/brand/*.png`; **new wording requires a new Chrome render.**
+- Note: this file has been edited again since `a64267b`, so local CLAUDE.md is once more ahead of origin.
