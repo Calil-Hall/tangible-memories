@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tangible Memories — Instant photography by Calil</title>
-<meta name="description" content="Tangible Memories — instant film photography by Calil. Prints that last beyond a screen. $10 per print, $5 per magnetic sleeve. Book a session.">
+<title>Tangible Memories — Instant photography for your event</title>
+<meta name="description" content="Tangible Memories — an instant film photographer at your event. One flat package: 2 hours, up to 60 prints handed out on the spot. $349, or $249 for your first event. A 50% retainer locks your date.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
@@ -109,7 +109,7 @@ a:hover{color:var(--color-accent-800);}
 .hero h1{font-size:76px;line-height:.95;margin:0;letter-spacing:-.02em;}
 .hero-lead{font-size:21px;line-height:1.5;margin:0;max-width:30ch;color:var(--color-neutral-800);}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
-.price-pair{display:flex;gap:28px;padding-top:6px;}
+.price-pair{display:flex;flex-wrap:wrap;gap:16px 28px;padding-top:6px;}
 .price-fig{font-family:var(--font-heading);font-size:30px;line-height:1;}
 .price-lbl{font-size:13px;color:var(--color-neutral-700);}
 .hero-img{border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg);
@@ -143,7 +143,7 @@ a:hover{color:var(--color-accent-800);}
 .manifesto p{font-size:18px;line-height:1.65;margin:0;color:var(--color-neutral-800);position:relative;}
 
 .how{padding:48px 0;}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
 .how .card{border:2px solid var(--color-accent-200);}
 .how-num{width:46px;height:46px;border-radius:999px;background:var(--color-accent-200);
   color:var(--color-accent-800);display:flex;align-items:center;justify-content:center;
@@ -193,9 +193,33 @@ a:hover{color:var(--color-accent-800);}
   border-top:1.5px dashed var(--color-neutral-300);padding-top:18px;}
 .total-row .lbl{font-size:15px;color:var(--color-neutral-700);}
 .total-row .fig{font-family:var(--font-heading);font-size:36px;line-height:1;}
+/* Event package card */
+.pkg-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.pkg-name{font-family:var(--font-heading);font-size:24px;line-height:1.1;}
+.pkg-price{display:flex;align-items:baseline;gap:10px;}
+.pkg-price .fig{font-family:var(--font-heading);font-size:44px;line-height:1;}
+.pkg-price .per{font-size:14px;color:var(--color-neutral-700);}
+.pkg-first{display:inline-flex;align-self:flex-start;}
+.pkg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+.pkg-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;}
+.pkg-list li::before{content:"";flex:none;width:18px;height:22px;margin-top:1px;border-radius:3px;
+  background:var(--color-neutral-100);box-shadow:var(--shadow-sm);
+  border-bottom:6px solid var(--color-neutral-100);outline:1.5px solid var(--color-accent-300);}
+.addons{border-top:1.5px dashed var(--color-neutral-300);padding-top:16px;display:flex;flex-direction:column;gap:10px;}
+.addons .card-kicker{margin-bottom:2px;}
+.addon-row{display:flex;justify-content:space-between;gap:16px;font-size:15px;}
+.addon-row .amt{font-family:var(--font-heading);white-space:nowrap;}
 .good-to-know{background:var(--color-accent-2-100);}
+.good-to-know .card-title{margin-top:6px;}
 .good-to-know .card-body{font-size:15px;flex:none;} /* match the site's base body size */
 
+.retainer{padding:40px 0 0;scroll-margin-top:80px;}
+.retainer-card{display:grid;grid-template-columns:.9fr 1.1fr;gap:32px;padding:32px;border:2px solid var(--color-accent-200);}
+.retainer-head h2{font-size:36px;line-height:1.05;margin:4px 0 12px;}
+.retainer-head p{font-size:16px;margin:0;color:var(--color-neutral-800);}
+.retainer-rows{display:flex;flex-direction:column;gap:12px;}
+.retainer-rows .pkg-list{border-top:1.5px dashed var(--color-neutral-300);padding-top:14px;margin-top:4px;}
+@media (max-width:900px){.retainer-card{grid-template-columns:1fr;gap:20px;padding:24px;}.retainer-head h2{font-size:30px;}}
 .book{padding:72px 0 0;scroll-margin-top:80px;}
 .book-panel{background:var(--color-neutral-900);color:var(--color-neutral-100);
   border-radius:var(--radius-lg);padding:52px;display:grid;grid-template-columns:1fr 1fr;gap:44px;
@@ -326,25 +350,26 @@ a:hover{color:var(--color-accent-800);}
     </span>
     <div class="nav-links">
       <a href="#gallery">Gallery</a>
-      <a href="#prices">Prices</a>
+      <a href="#prices">Package</a>
       <a href="#contact">Contact</a>
-      <a href="#book" class="btn btn-primary">Book a session</a>
+      <a href="#book" class="btn btn-primary">Book your event</a>
     </div>
   </nav>
 
   <!-- 3. Hero -->
   <header class="hero">
     <div class="hero-copy">
-      <span class="tag tag-accent-2">Instant film · limited slots</span>
+      <span class="tag tag-accent-2">Instant film · now booking events</span>
       <h1>Tangible<br>Memories</h1>
-      <p class="hero-lead">Instant moments, real memories. You leave the session holding the photograph — not waiting on a camera roll.</p>
+      <p class="hero-lead">An instant photographer at your event. Your guests leave holding the photograph, not waiting on a link.</p>
       <div class="hero-cta">
-        <a href="#book" class="btn btn-primary">Book your session</a>
-        <a href="#gallery" class="btn btn-secondary">See the prints</a>
+        <a href="#book" class="btn btn-primary">Book a 10-minute call</a>
+        <a href="#prices" class="btn btn-secondary">See the package</a>
       </div>
       <div class="price-pair">
-        <div><div class="price-fig">$10</div><div class="price-lbl">one print</div></div>
-        <div><div class="price-fig">$5</div><div class="price-lbl">magnetic sleeve</div></div>
+        <div><div class="price-fig">$349</div><div class="price-lbl">2-hour event</div></div>
+        <div><div class="price-fig">$249</div><div class="price-lbl">your first event</div></div>
+        <div><div class="price-fig">60</div><div class="price-lbl">prints included</div></div>
       </div>
     </div>
     <div class="hero-img">
@@ -352,8 +377,8 @@ a:hover{color:var(--color-accent-800);}
     </div>
     <section id="gallery" class="gallery">
       <div class="gallery-head">
-        <h2>Recent sessions</h2>
-        <span class="gallery-note">Each one printed once, handed over the same day.</span>
+        <h2>Recent events</h2>
+        <span class="gallery-note">Each one printed once, handed over on the spot.</span>
       </div>
       <div class="gallery-grid">
         <div class="mount" style="transform:rotate(-1.4deg)"><div class="frame"><img src="assets/session-02.jpg" width="600" height="600" alt="Friends squeezed into a restaurant booth, shot on instant film"></div></div>
@@ -364,18 +389,18 @@ a:hover{color:var(--color-accent-800);}
 
   <!-- 4. Tag row -->
   <div class="tagrow">
-    <span class="tag tag-outline">Same-day prints</span>
-    <span class="tag tag-outline">One of a kind</span>
-    <span class="tag tag-outline">No digital files</span>
-    <span class="tag tag-outline">Groups welcome</span>
+    <span class="tag tag-outline">One flat price · no quotes</span>
+    <span class="tag tag-outline">50% retainer locks your date</span>
+    <span class="tag tag-outline">Prints on the spot</span>
+    <span class="tag tag-outline">On time or 5 free prints</span>
   </div>
 
   <!-- 5. Manifesto -->
   <section class="manifesto">
     <div class="deco1"></div>
     <div class="deco2"></div>
-    <h2>Prints that last<br>beyond a screen.</h2>
-    <p>Every session is shot on instant film and developed in front of you. No gallery link, no download folder — one photograph, in your hand, the same afternoon. Slip it in a magnetic sleeve and it goes straight on the fridge.</p>
+    <h2>Party favors<br>they'll actually keep.</h2>
+    <p>Birthdays, showers, graduations, weddings, office parties, nights out. Calil works the room on instant film and hands each print over as it develops. No gallery link, no download folder — your guests go home with the photograph in their pocket.</p>
   </section>
 
   <!-- 6. How it works -->
@@ -383,62 +408,81 @@ a:hover{color:var(--color-accent-800);}
     <div class="how-grid">
       <div class="card elev-sm">
         <div class="how-num">1</div>
-        <div class="card-title">Pick a slot</div>
-        <p class="card-body">Send a request below with the day that works. Sessions run about twenty minutes.</p>
+        <div class="card-title">Book a quick call</div>
+        <p class="card-body">Pick a time on the calendar below. Ten minutes to cover the date, the place, and the crowd.</p>
       </div>
       <div class="card elev-sm">
         <div class="how-num">2</div>
-        <div class="card-title">We shoot</div>
-        <p class="card-body">A handful of frames on instant film. You watch each one come up as it develops.</p>
+        <div class="card-title">Lock the date</div>
+        <p class="card-body">Pay the 50% retainer and your date is yours. Calil confirms by email.</p>
       </div>
       <div class="card elev-sm">
         <div class="how-num">3</div>
-        <div class="card-title">You take it home</div>
-        <p class="card-body">Choose your favourites, sleeve them, and walk out with them in your pocket.</p>
+        <div class="card-title">We shoot your event</div>
+        <p class="card-body">Two hours on instant film, working the room. Guests watch their prints come to life.</p>
+      </div>
+      <div class="card elev-sm">
+        <div class="how-num">4</div>
+        <div class="card-title">Everyone takes one home</div>
+        <p class="card-body">Prints go straight to your guests. The other half is due when the event wraps.</p>
       </div>
     </div>
   </section>
 
   <!-- 8. Prices -->
   <section id="prices" class="prices">
-    <h2>What you take home</h2>
+    <h2>One package. No quotes.</h2>
     <div class="prices-grid">
       <div class="card elev-md order">
-        <div class="order-row">
-          <div class="thumb-print"><div></div></div>
-          <div class="meta">
-            <div class="card-title">Instant print</div>
-            <div class="sub"><span id="printPriceLabel">$10</span> each</div>
-          </div>
-          <div class="stepper">
-            <button class="btn btn-ghost" data-step="prints" data-dir="-1" aria-label="Fewer prints">–</button>
-            <span class="count" id="printsCount">2</span>
-            <button class="btn btn-ghost" data-step="prints" data-dir="1" aria-label="More prints">+</button>
-          </div>
+        <div class="pkg-head">
+          <span class="pkg-name">Instant Event Package</span>
+          <span class="pkg-price"><span class="fig" id="pkgPrice">$349</span><span class="per">per event</span></span>
         </div>
-        <div class="order-row">
-          <div class="thumb-sleeve"><div><div></div></div></div>
-          <div class="meta">
-            <div class="card-title">Magnetic sleeve</div>
-            <div class="sub"><span id="sleevePriceLabel">$5</span> each · fridge-ready</div>
-          </div>
-          <div class="stepper">
-            <button class="btn btn-ghost" data-step="sleeves" data-dir="-1" aria-label="Fewer sleeves">–</button>
-            <span class="count" id="sleevesCount">1</span>
-            <button class="btn btn-ghost" data-step="sleeves" data-dir="1" aria-label="More sleeves">+</button>
-          </div>
+        <span class="tag tag-accent-2 pkg-first">First event with us: <strong>&nbsp;<span id="firstPrice">$249</span></strong></span>
+        <ul class="pkg-list">
+          <li>2 hours of instant photography at your event</li>
+          <li>Up to <span id="pkgPrints">60</span> instant prints, handed to guests as they develop</li>
+          <li>All film, cameras, and gear included</li>
+          <li>10 magnetic sleeves for the host's favorites</li>
+          <li>Birthdays, showers, graduations, weddings, office parties, nights out</li>
+        </ul>
+        <div class="addons">
+          <div class="card-kicker">Add-ons</div>
+          <div class="addon-row"><span>Extra hour (adds 30 prints)</span><span class="amt" id="addonHour">+$150</span></div>
+          <div class="addon-row"><span>Guestbook album: guests stick in their print and sign</span><span class="amt" id="addonBook">+$75</span></div>
         </div>
-        <div class="total-row">
-          <span class="lbl">Your total on the day</span>
-          <span class="fig" id="totalLabel">$25</span>
-        </div>
-        <a href="#book" class="btn btn-primary btn-block">Book with this order</a>
+        <a href="#book" class="btn btn-primary btn-block">Book a 10-minute call</a>
       </div>
       <div class="card elev-sm good-to-know">
         <div class="card-kicker">Good to know</div>
-        <p class="card-body">Prints are one of a kind — there's no negative and no digital file. Add sleeves for the ones going on a fridge or in a wallet.</p>
-        <p class="card-body">Photos take 5–10 minutes to fully develop — you'll watch them come to life in your hands.</p>
-        <p class="card-body">Group sessions and events are quoted per shoot; ask when you request a slot.</p>
+        <div class="card-title">50% retainer locks your date</div>
+        <p class="card-body">Half the booking cost holds your date; the balance is due when the event wraps. See the retainer terms below.</p>
+        <div class="card-title">On time, or <span class="js-bonus">5</span> free prints</div>
+        <p class="card-body">If Calil isn't set up and shooting at your start time, you get <span class="js-bonus">5</span> extra prints free, on top of your package.</p>
+        <div class="card-title">Real prints, no files</div>
+        <p class="card-body">Every print is one of a kind — no negative, no digital copy. Each takes 5–10 minutes to develop, and guests love watching it happen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8b. Retainer -->
+  <section id="retainer" class="retainer">
+    <div class="card elev-sm retainer-card">
+      <div class="retainer-head">
+        <div class="card-kicker">Booking terms</div>
+        <h2>Retainer</h2>
+        <p>A non-refundable retainer of <span class="js-pct">50%</span> of the booking cost locks your date. Once it's paid, Calil turns down every other request for that day.</p>
+      </div>
+      <div class="retainer-rows">
+        <div class="addon-row"><span>Instant Event Package</span><span class="amt"><span class="js-retainer">$174.50</span> retainer</span></div>
+        <div class="addon-row"><span>First event with us</span><span class="amt"><span class="js-retainer-first">$124.50</span> retainer</span></div>
+        <div class="addon-row"><span>Add-ons</span><span class="amt">50% at booking</span></div>
+        <ul class="pkg-list">
+          <li>Paid after your 10-minute call, once your date is confirmed</li>
+          <li>Counts toward your total; the balance is due when the event wraps</li>
+          <li>Non-refundable if you cancel, since that date can't be resold</li>
+          <li>Need a different date? Ask, and it moves to an open date when one works</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -447,33 +491,34 @@ a:hover{color:var(--color-accent-800);}
   <section id="book" class="book">
     <div class="book-panel">
       <div class="book-left">
-        <h2>Book your<br>session today</h2>
-        <p class="book-lead">Limited slots each month. Send a request and you'll hear back the same day with a time and a spot to meet.</p>
+        <h2>Book your<br>event today</h2>
+        <p class="book-lead">Limited dates each month. Send a request and you'll hear back the same day.</p>
         <div class="deposit">
-          <div class="kick">DEPOSIT &amp; PAYMENT</div>
+          <div class="kick">PAYMENT</div>
+          <div class="amt-row"><span class="amt js-retainer">$174.50</span><span class="amt-sub">· 50% retainer, non-refundable</span></div>
           <div class="pay-row">
-            <a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Send deposit on Cash App</a>
+            <a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Pay retainer on Cash App</a>
             <span class="cashtag">$calilhall</span>
           </div>
-          <span class="fine">Card, Apple Pay or cash for the balance at the session.</span>
+          <span class="fine">Pay the retainer after your call, once your date is confirmed. Balance due at the end of your event: card, Apple Pay, Cash App or cash.</span>
         </div>
       </div>
       <form class="book-form" id="bookForm" novalidate>
         <div class="field"><label for="tm-name">Name</label><input class="input" id="tm-name" placeholder="Your name"></div>
         <div class="field"><label for="tm-contact">Email or Instagram</label><input class="input" id="tm-contact" placeholder="you@ or @handle"></div>
         <div class="form-two">
-          <div class="field"><label for="tm-date">Preferred date</label><input class="input" id="tm-date" type="date"></div>
-          <div class="field"><label for="tm-people">People</label><input class="input" id="tm-people" type="number" min="1" value="1"></div>
+          <div class="field"><label for="tm-date">Event date</label><input class="input" id="tm-date" type="date"></div>
+          <div class="field"><label for="tm-people">Guests</label><input class="input" id="tm-people" type="number" min="1" value="40"></div>
         </div>
-        <div class="field"><label for="tm-notes">Anything else</label><input class="input" id="tm-notes" placeholder="Occasion, location, questions"></div>
+        <div class="field"><label for="tm-notes">Event details</label><input class="input" id="tm-notes" placeholder="Occasion, venue, start time, add-ons"></div>
         <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Copy my request</button>
         <a href="https://ig.me/m/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-secondary btn-block dm-btn">Or DM @TangibleMemories4U</a>
-        <span class="order-echo" id="orderEcho">Your order right now: 2 prints · 1 sleeve · $25</span>
+        <span class="order-echo" id="orderEcho">Instant Event Package · $349</span>
         <span class="status-line" id="statusLine"></span>
       </form>
       <div class="book-embed" id="bookEmbed" hidden>
-        <div class="book-embed-note">Pick an open slot below — you'll get a Google Calendar confirmation.</div>
-        <div class="embed-frame"><iframe id="bookEmbedFrame" title="Book a Tangible Memories session" loading="lazy" style="border:0" width="100%" height="700" frameborder="0"></iframe></div>
+        <div class="book-embed-note">Pick a time for your 10-minute call — you'll get a Google Calendar confirmation.</div>
+        <div class="embed-frame"><iframe id="bookEmbedFrame" title="Book a call with Tangible Memories" loading="lazy" style="border:0" width="100%" height="700" frameborder="0"></iframe></div>
         <a id="bookEmbedOpen" class="btn btn-primary btn-block book-open-btn" target="_blank" rel="noopener">Pick a time on the booking calendar</a>
         <a href="https://ig.me/m/TangibleMemories4U" target="_blank" rel="noopener" class="btn btn-secondary btn-block dm-btn">Or DM @TangibleMemories4U</a>
       </div>
@@ -484,7 +529,7 @@ a:hover{color:var(--color-accent-800);}
   <section id="contact" class="contact">
     <div class="contact-head">
       <h2>Get in touch</h2>
-      <p>Questions about a session, a group shoot, or a custom idea? Reach out — you'll usually hear back the same day.</p>
+      <p>Questions about your event, the package, or a custom idea? Reach out — you'll usually hear back the same day.</p>
     </div>
     <div class="contact-grid">
       <a class="card elev-sm contact-card" href="https://instagram.com/TangibleMemories4U" target="_blank" rel="noopener">
@@ -518,7 +563,7 @@ a:hover{color:var(--color-accent-800);}
 
 <!-- Sticky book bar (mobile only) — from wireframe 1a -->
 <div class="book-bar">
-  <span class="msg">Limited slots this month</span>
+  <span class="msg">Now booking events</span>
   <a href="#book" class="btn btn-primary">Book</a>
 </div>
 
@@ -526,8 +571,14 @@ a:hover{color:var(--color-accent-800);}
 (function(){
   // ── Site configuration ─────────────────────────────────────────────
   var config = {
-    printPrice: 10,
-    sleevePrice: 5,
+    // Event package — edit these and every price on the page updates.
+    packagePrice: 349,
+    firstEventPrice: 249,
+    printsIncluded: 60,
+    extraHourPrice: 150,
+    guestbookPrice: 75,
+    retainerPct: 50,      // non-refundable retainer, % of the booking cost
+    lateBonusPrints: 5,   // on-time guarantee alternative
     handle: "@TangibleMemories4U",
     cashtag: "$calilhall",
     website: "TangibleMemories.shop",
@@ -543,12 +594,12 @@ a:hover{color:var(--color-accent-800);}
     bookingUrl: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ2MTxX9aTMl-BYnTNSilAmtTEICgaa3CFejrvq1fguagbrHTAi273Eac7Qlh1jKYbl2iUrqCT0p?gv=true"
   };
 
-  var money = function(n){ return "$" + (Math.round(n*100)/100); };
-  var state = { prints: 2, sleeves: 1, sending: false, sent: false, error: "" };
+  var money = function(n){ var r = Math.round(n*100)/100; return "$" + (r % 1 ? r.toFixed(2) : r); };
+  var state = { sending: false, sent: false, error: "" };
 
   // ── Marquee (duplicated once for seamless loop) ─────────────────────
-  var phrases = ["Limited slots this month","Instant camera. Instant prints.",
-    "Prints that last beyond a screen","Instant photography by Calil"];
+  var phrases = ["Now booking events","One flat price. No quotes.",
+    "Every guest leaves with a print","On time or 5 free prints","Instant photography by Calil"];
   var mq = document.getElementById("marquee");
   var seq = phrases.concat(phrases);
   seq.forEach(function(p){
@@ -560,10 +611,10 @@ a:hover{color:var(--color-accent-800);}
   var depositBtn = document.getElementById("depositBtn");
   if (config.depositLink) {
     depositBtn.href = config.depositLink;
-    depositBtn.textContent = "Pay deposit";
+    depositBtn.textContent = "Pay retainer by card";
   } else {
     depositBtn.href = "https://cash.app/" + config.cashtag;
-    depositBtn.textContent = "Send deposit on Cash App";
+    depositBtn.textContent = "Pay retainer on Cash App";
   }
 
   // ── Booking: Google Calendar embed vs. request form ─────────────────
@@ -580,15 +631,10 @@ a:hover{color:var(--color-accent-800);}
     if (bookPanel) bookPanel.classList.add("has-embed");
     var lead = document.querySelector(".book-lead");
     if (lead) lead.textContent =
-      "Limited slots each month. Pick an open time on the calendar and you're booked — a confirmation lands in your email.";
+      "Limited dates each month. Grab a 10-minute call on the calendar and Calil will lock in your event.";
   }
 
   // ── Derived-value rendering ─────────────────────────────────────────
-  function total(){ return state.prints*config.printPrice + state.sleeves*config.sleevePrice; }
-  function orderLine(){
-    return state.prints + " print" + (state.prints===1?"":"s") + " · " +
-           state.sleeves + " sleeve" + (state.sleeves===1?"":"s");
-  }
   function submitLabel(){
     if (state.sending) return "Sending…";
     if (state.sent) return config.formEndpoint ? "Request sent — talk soon" : "Request copied — talk soon";
@@ -599,46 +645,40 @@ a:hover{color:var(--color-accent-800);}
     if (state.sending) return "Sending…";
     if (state.sent) return config.formEndpoint
       ? "Sent — you'll hear back today."
-      : "Copied — paste it into a DM to " + config.handle + " and send the deposit.";
+      : "Copied — paste it into a DM to " + config.handle + ".";
     return "";
   }
+  function setText(id, txt){ var el = document.getElementById(id); if (el) el.textContent = txt; }
   function render(){
-    document.getElementById("printPriceLabel").textContent = money(config.printPrice);
-    document.getElementById("sleevePriceLabel").textContent = money(config.sleevePrice);
-    document.getElementById("printsCount").textContent = state.prints;
-    document.getElementById("sleevesCount").textContent = state.sleeves;
-    document.getElementById("totalLabel").textContent = money(total());
-    document.getElementById("orderEcho").textContent =
-      "Your order right now: " + orderLine() + " · " + money(total());
-    document.getElementById("submitBtn").textContent = submitLabel();
+    setText("pkgPrice", money(config.packagePrice));
+    setText("firstPrice", money(config.firstEventPrice));
+    setText("pkgPrints", config.printsIncluded);
+    setText("addonHour", "+" + money(config.extraHourPrice));
+    setText("addonBook", "+" + money(config.guestbookPrice));
+    var ret = function(p){ return money(p*config.retainerPct/100); };
+    document.querySelectorAll(".js-retainer").forEach(function(el){ el.textContent = ret(config.packagePrice); });
+    document.querySelectorAll(".js-retainer-first").forEach(function(el){ el.textContent = ret(config.firstEventPrice); });
+    document.querySelectorAll(".js-pct").forEach(function(el){ el.textContent = config.retainerPct + "%"; });
+    document.querySelectorAll(".js-bonus").forEach(function(el){ el.textContent = config.lateBonusPrints; });
+    setText("orderEcho", "Instant Event Package · " + money(config.packagePrice) +
+      " (" + money(config.firstEventPrice) + " for your first event)");
+    setText("submitBtn", submitLabel());
     document.getElementById("submitBtn").disabled = state.sending;
-    document.getElementById("statusLine").textContent = statusText();
+    setText("statusLine", statusText());
   }
-
-  // ── Steppers ────────────────────────────────────────────────────────
-  document.querySelectorAll("[data-step]").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      var key = btn.getAttribute("data-step");
-      var dir = parseInt(btn.getAttribute("data-dir"), 10);
-      state[key] = Math.max(0, state[key] + dir);
-      state.sent = false; state.error = "";
-      render();
-    });
-  });
 
   // ── Form submit ─────────────────────────────────────────────────────
   function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ""; }
   document.getElementById("bookForm").addEventListener("submit", function(e){
     e.preventDefault();
-    var t = total();
     var lines = [
-      "Session request — Tangible Memories",
+      "Event request — Tangible Memories",
       "Name: " + (val("tm-name") || "—"),
       "Contact: " + (val("tm-contact") || "—"),
-      "Preferred date: " + (val("tm-date") || "—"),
-      "People: " + (val("tm-people") || "1"),
-      "Order: " + state.prints + " prints + " + state.sleeves + " sleeves ($" + t + ")",
-      "Notes: " + (val("tm-notes") || "—")
+      "Event date: " + (val("tm-date") || "—"),
+      "Guests: " + (val("tm-people") || "—"),
+      "Package: Instant Event Package (" + money(config.packagePrice) + ")",
+      "Details: " + (val("tm-notes") || "—")
     ].join("\n");
     var done = function(){ state.sent = true; state.sending = false; state.error = ""; render(); };
     if (config.formEndpoint) {
@@ -647,10 +687,10 @@ a:hover{color:var(--color-accent-800);}
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          _subject: "Session request — Tangible Memories",
+          _subject: "Event request — Tangible Memories",
           name: val("tm-name"), contact: val("tm-contact"), date: val("tm-date"),
-          people: val("tm-people"), prints: state.prints, sleeves: state.sleeves,
-          total: t, notes: val("tm-notes"), message: lines
+          guests: val("tm-people"), package: "Instant Event Package",
+          notes: val("tm-notes"), message: lines
         })
       }).then(function(r){
         if (!r.ok) throw new Error("bad status"); done();
