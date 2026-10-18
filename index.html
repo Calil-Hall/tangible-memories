@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tangible Memories — Instant photography for your event</title>
-<meta name="description" content="Tangible Memories — an instant film photographer at your event. One flat package: 2 hours, up to 60 prints handed out on the spot. $349, or $249 for your first event. A 50% retainer locks your date.">
+<meta name="description" content="Tangible Memories — an instant film photographer at your event. One flat package: 2 hours, up to 40 prints handed out on the spot. $349, or $249 for your first event. A 50% retainer locks your date.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caprasimo:wght@400&family=Figtree:wght@400;600;700&display=swap" rel="stylesheet">
@@ -361,7 +361,7 @@ a:hover{color:var(--color-accent-800);}
     <div class="hero-copy">
       <span class="tag tag-accent-2">Instant film · now booking events</span>
       <h1>Tangible<br>Memories</h1>
-      <p class="hero-lead">An instant photographer at your event. Your guests leave holding the photograph, not waiting on a link.</p>
+      <p class="hero-lead">An instant photographer at your event. Every guest leaves with a one-of-a-kind photograph to keep for the rest of their life and relive the moment for years to come.</p>
       <div class="hero-cta">
         <a href="#book" class="btn btn-primary">Book a 10-minute call</a>
         <a href="#prices" class="btn btn-secondary">See the package</a>
@@ -369,7 +369,7 @@ a:hover{color:var(--color-accent-800);}
       <div class="price-pair">
         <div><div class="price-fig">$349</div><div class="price-lbl">2-hour event</div></div>
         <div><div class="price-fig">$249</div><div class="price-lbl">your first event</div></div>
-        <div><div class="price-fig">60</div><div class="price-lbl">prints included</div></div>
+        <div><div class="price-fig" id="heroPrints">40</div><div class="price-lbl">prints included</div></div>
       </div>
     </div>
     <div class="hero-img">
@@ -441,14 +441,14 @@ a:hover{color:var(--color-accent-800);}
         <span class="tag tag-accent-2 pkg-first">First event with us: <strong>&nbsp;<span id="firstPrice">$249</span></strong></span>
         <ul class="pkg-list">
           <li>2 hours of instant photography at your event</li>
-          <li>Up to <span id="pkgPrints">60</span> instant prints, handed to guests as they develop</li>
+          <li>Up to <span id="pkgPrints">40</span> instant prints, handed to guests as they develop</li>
           <li>All film, cameras, and gear included</li>
           <li>10 magnetic sleeves for the host's favorites</li>
           <li>Birthdays, showers, graduations, weddings, office parties, nights out</li>
         </ul>
         <div class="addons">
           <div class="card-kicker">Add-ons</div>
-          <div class="addon-row"><span>Extra hour (adds 30 prints)</span><span class="amt" id="addonHour">+$150</span></div>
+          <div class="addon-row"><span>Extra hour (adds <span id="hourPrints">20</span> prints)</span><span class="amt" id="addonHour">+$150</span></div>
           <div class="addon-row"><span>Guestbook album: guests stick in their print and sign</span><span class="amt" id="addonBook">+$75</span></div>
         </div>
         <a href="#book" class="btn btn-primary btn-block">Book a 10-minute call</a>
@@ -574,7 +574,8 @@ a:hover{color:var(--color-accent-800);}
     // Event package — edit these and every price on the page updates.
     packagePrice: 349,
     firstEventPrice: 249,
-    printsIncluded: 60,
+    printsIncluded: 40,
+    extraHourPrints: 20,
     extraHourPrice: 150,
     guestbookPrice: 75,
     retainerPct: 50,      // non-refundable retainer, % of the booking cost
@@ -653,6 +654,8 @@ a:hover{color:var(--color-accent-800);}
     setText("pkgPrice", money(config.packagePrice));
     setText("firstPrice", money(config.firstEventPrice));
     setText("pkgPrints", config.printsIncluded);
+    setText("heroPrints", config.printsIncluded);
+    setText("hourPrints", config.extraHourPrints);
     setText("addonHour", "+" + money(config.extraHourPrice));
     setText("addonBook", "+" + money(config.guestbookPrice));
     var ret = function(p){ return money(p*config.retainerPct/100); };
