@@ -313,6 +313,10 @@ a:hover{color:var(--color-accent-800);}
 .footer-links{display:flex;align-items:center;gap:12px;}
 .footer-links .btn-icon{color:var(--color-text);}
 .footer-handle{font-size:15px;color:var(--color-neutral-700);}
+/* Small, quiet link to the password-protected /admin page. */
+.footer-admin{flex-basis:100%;text-align:center;padding-top:6px;border-top:1px solid var(--color-divider);}
+.footer-admin a{display:inline-block;padding:12px 8px;font-size:13px;color:var(--color-neutral-600);}
+.footer-admin a:hover{color:var(--color-accent-700);}
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
 @media (max-width:900px){
@@ -599,6 +603,7 @@ a:hover{color:var(--color-accent-800);}
       <a href="https://TangibleMemories.shop" target="_blank" rel="noopener" class="btn btn-icon" aria-label="Website"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19"></path><path d="M12 2.5c2.6 3 2.6 16 0 19"></path></svg></a>
       <span class="footer-handle">@TangibleMemories4U · TangibleMemories.shop</span>
     </div>
+    <div class="footer-admin"><a href="/admin" rel="nofollow">Admin login</a></div>
   </footer>
 
 </div>
