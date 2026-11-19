@@ -18,5 +18,16 @@ Hero Image.png
 # these are the full-size phone originals they were cut from (~1.5MB each) and the
 # working files used to find the crop. Kept locally, never committed.
 assets/IMG_*.jpg
+assets/IMG_*.DNG
 assets/_*.png
 assets/*_grid.png
+
+# Instagram posts. posts/ is the numbered posting folder (01-NN in posting order,
+# written by ../social-kit/make-post.py --pack). These are social artefacts, not
+# website assets — they must never be served from the site or bloat the deploy.
+# assets/NN-*.jpg is the same set from before the folder existed; harmless, ignored.
+posts/
+assets/[0-9][0-9]-*.jpg
+
+# Hidden-prints list written by /admin when no Railway Volume is attached.
+data/

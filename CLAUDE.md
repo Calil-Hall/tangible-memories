@@ -3,6 +3,43 @@
 This file governs work on the **Tangible Memories** website only. It is a separate project
 from the resume-match app tracked by `../accountability.md` and `../CLAUDE.md`. Do not mix the two.
 
+---
+
+## ⚠️ READ THIS FIRST — corrections as of 2026-08-03 (sessions 10–13)
+
+**Everything in this file about the social kit predates session 10 and several statements in it
+are now WRONG.** `../accountability.md` is the current record; it is longer but it is right.
+The specific reversals:
+
+| This file says | Actually |
+|---|---|
+| A 9-post grid; 6 more photos needed | **Twelve posts.** Calil shot the remaining nine. Grid is 3×4. |
+| Auto-detection of the print window "does not work; measure it" | **It works.** `make-post.py --auto` finds the print, straightens it and cuts it. Two detectors are tried — brightness, then texture — because bright interior shots defeat the brightness test. `--grid`/`--crop` is now only the fallback. |
+| The frame carries the wordmark, `$10/$5` price line, handle and URL | **No price on any post, ever again** — see the standing rule below. The nine original posts carry the handle only; posts 10+ carry the handle as a header and a short description of the picture at the foot. |
+| Cream ground | **Blurred close-up of each photo**, washed with one of four theme colours at 42% (`blur-tint`). Locked by Calil 2026-07-30 as the house format for all future posts. |
+| Post the `-feed` files, grid tiles are 3:4 | **Still true.** This is the one thing below that has not changed. |
+
+**STANDING RULE — nothing that can change goes into a posted image.** An Instagram post cannot be
+edited after publication; the only remedy is deleting it, which forfeits the engagement. Prices,
+dates, availability and offer terms live in the bio, the caption or this site — all editable. The
+image carries the photograph, the handle, and (v2 only) a description of what is happening.
+
+**TWO FORMATS EXIST ON PURPOSE — do not harmonise them.** Calil accepted an inconsistent grid
+deliberately, in his words *"trading that for visibly tracked page improvements."* The nine
+original exports are **frozen**; verify with `md5sum out/*.jpg` before and after any generator
+change.
+
+**The site still describes a business Calil is not running.** It sells 1:1 sessions behind a phone
+consult; the real business is host-paid event vending with prepaid $7 credit blocks. No host page,
+no events copy, no credit model anywhere. Largest concrete gap in the project — see
+`../boardroom-review-2026-07-30.md` §6 addendum before writing any new site copy.
+
+**Uncommitted:** `index.html` has a session-12 accent change (Google-free palette tokens `--tm-*`,
+recoloured `.how-num` circles, a `.palette-rule` swatch strip) that is **not committed and not
+deployed**. The live site does not have it.
+
+---
+
 ## What this is
 A one-page marketing + booking site for **Tangible Memories**, instant film photography by Calil.
 Built from the design handoff (`Tangible Memories website.zip`). Visitors learn the pitch, see recent
@@ -578,3 +615,60 @@ $50 amount), plus two integration hooks:
   against the known background and text colour, and repaint at the exact brand hex. Real brand type,
   no JPEG halo. Cached in `../social-kit/brand/*.png`; **new wording requires a new Chrome render.**
 - Note: this file has been edited again since `a64267b`, so local CLAUDE.md is once more ahead of origin.
+
+### 2026-07-28 (part 4) — LIVE. How to unblock a Railway deploy that never fired.
+- After the incident banner cleared, Railway *still* had no deployment for `b991316` / `a64267b`.
+  Settings → Source was correct (repo + `main` + auto-deploy on, "Wait for CI" off), so the webhook
+  deliveries had simply been dropped.
+- **Standing fix — do this instead of "Redeploy".** Railway's Redeploy re-runs that deployment's own
+  commit, so it can never rescue a missed webhook. **Push any new commit to `main`** — Railway fires
+  on the new webhook and builds the tip of the branch, sweeping in everything that was skipped. Used
+  the pending doc change as the carrier: **`2a65cb5`** "Document gallery photos and social kit".
+  BUILDING within ~22 seconds.
+- **Live-verified on tangiblememories.shop (cache-busted):** 2 gallery `<img>`, **0 placeholders**,
+  both at 600×600 with the intended alt text, assets served as `image/jpeg` at **53825 / 48527
+  bytes — byte-identical to local**. Before the deploy those same URLs returned `text/html` 38950
+  (the `server.js` index fallback) — that mismatch is the quickest way to prove an asset hasn't
+  actually shipped. Rendered hero screenshotted: both prints in their white mounts in the card.
+- Today's chain: `b991316` (images) → `a64267b` (markup) → `2a65cb5` (docs + deploy trigger).
+- Still open: Railway trial "17 days or $4.96 left"; mobile render check is Calil's; `session-01.jpg`
+  (living room) is deployed but not placed — one line in `index.html` swaps it in.
+
+### 2026-07-28 (part 5) — Instagram posting: two blockers, nothing posted (site unaffected)
+- **The site is untouched by this entry** — Instagram work only, logged here because it uses the
+  social kit at `../social-kit/`.
+- **Calil's social strategy (drives the next few sessions):** flood the feed over a few days with
+  **9 posts to form a 3×3 grid**, then settle into **3 posts a week**.
+- **Instagram web cannot archive.** A post's ⋯ menu offers only Delete / Edit / Hide like count /
+  Turn off commenting / Go to post / Share to… / Copy link / About this account. Archiving is
+  **app-only** — phone, post → ⋯ → Archive. **Never substitute Delete**: it is permanent and the
+  posts carry likes. Anything involving archiving has to go back to Calil.
+- ~~**A 9-post grid needs 9 distinct images.** Filling a 3×3 means 6 more session photos or 6
+  brand/type tiles.~~ **SUPERSEDED — Calil shot twelve. The grid is 3×4 and every tile is a real
+  photograph; no filler tiles were ever built.**
+- **Grid tile geometry — measured, use this.** The profile grid renders tiles at **276×368 = 3:4
+  portrait**, so **post the `-feed` 1080×1350 files, not the squares.** A 0.80 image in a 0.75 box
+  crops *horizontally*, ~3% per side; the frame keeps its text centred with ~21% side margins, so
+  nothing clips. Squares would lose ~25% of their width.
+- State at close: nothing posted, nothing archived, no captions written; the 3 original raw posts
+  are still live.
+- **DECIDED — the grid gets designed before anything is posted.** Calil is shooting the remaining
+  photos himself, deliberately **a variety of shots rather than more group pictures, to show range
+  of moments**. He sends them here → Claude formats them **exactly like `session-01..03`** →
+  *then* the two of them design the 9-tile scheme and the posting order.
+  **Consequence: do not build brand/type filler tiles.** All nine tiles will be real photographs.
+- ~~**The pipeline for each new photo:** `--grid` to get a measuring overlay → read the print's
+  photo window by eye → `--crop x y w h <name>` → rerun. Auto-detection does not work; measure
+  it.~~ **SUPERSEDED session 10, extended session 13. The correct pipeline is now:**
+  `python3 make-post.py --auto <original> <name>` then `python3 make-post.py`. It finds the print,
+  finds the photograph inside it, straightens it and cuts it — brightness detection first, texture
+  detection as a fallback for bright interior shots. It prints the aspect ratio it got; a real
+  Instax mini image area is **0.742** (or 1.348 landscape), so anything near that is right and
+  anything wildly off means fall back to `--grid`/`--crop`. **That aspect check is the whole
+  verification** — it is a number the result can fail. Post the **`-feed`** files (grid tiles are
+  3:4 — this part never changed).
+- Worth telling Calil when he shoots: keep the prints on the same wood surface at a similar size in
+  frame and roughly square-on, one print per photo, no glare across the face, and send the phone
+  originals rather than the Instagram copies. Consistency is what makes a 3×3 read as a set, and it
+  makes the crop measurements predictable. Note also that the living-room print is the weakest of
+  the first three at tile size — dark, low-contrast frames lose a lot when shrunk to 276px.

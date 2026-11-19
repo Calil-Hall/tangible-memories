@@ -129,6 +129,39 @@ a:hover{color:var(--color-accent-800);}
 .hero .gallery{background:var(--color-surface);border:2px solid var(--color-accent-200);
   border-radius:calc(var(--radius-lg)*1.15);padding:24px 26px 26px;box-shadow:var(--shadow-sm);}
 .hero .gallery .gallery-grid{grid-template-columns:repeat(2,1fr);}
+/* Horizontal reel of scanned prints. Fixed height, natural width, so a scan
+   of any shape keeps its proportions. Snap + arrows for mouse users; touch
+   and trackpad scroll natively. min-width:0 lets it shrink inside the grid. */
+.hero .gallery{min-width:0;}
+.gallery-head .gallery-note{flex-basis:100%;}
+.reel-nav{display:flex;gap:8px;margin-left:auto;}
+.reel-btn{width:40px;height:40px;border-radius:999px;border:2px solid var(--color-accent-300);
+  background:var(--color-neutral-100);color:var(--color-accent-800);font-size:18px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.reel-btn:hover:not(:disabled){background:var(--color-accent-100,var(--color-accent-200));}
+.reel-btn:disabled{opacity:.35;cursor:default;}
+.reel-wrap{position:relative;border:2px dashed var(--color-accent-300);border-radius:var(--radius-lg);}
+.reel{display:flex;gap:20px;overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;scroll-padding:0 22px;padding:22px 22px 24px;
+  scrollbar-width:thin;scrollbar-color:var(--color-accent-300) transparent;
+  border-radius:var(--radius-lg);}
+.reel:focus-visible{outline:3px solid var(--color-accent);outline-offset:2px;}
+.reel-item{flex:none;margin:0;scroll-snap-align:start;height:260px;}
+.reel-item img{height:100%;width:auto;display:block;border-radius:3px;
+  box-shadow:var(--shadow-md);background:var(--color-neutral-200);}
+/* Fade on the right edge says "there's more" until the end is reached. */
+.reel-wrap::after{content:"";position:absolute;top:2px;right:2px;bottom:2px;width:46px;
+  border-radius:0 var(--radius-lg) var(--radius-lg) 0;pointer-events:none;
+  background:linear-gradient(to right,transparent,var(--color-surface));transition:opacity .2s;}
+.reel-wrap.at-end::after{opacity:0;}
+/* Last tile in the strip: links to the full gallery page. */
+.reel-more{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  aspect-ratio:54/86;padding:14px;text-align:center;text-decoration:none;color:var(--color-accent-800);
+  background:var(--color-neutral-100);border:2px solid var(--color-accent-300);border-radius:6px;font-size:14px;}
+.reel-more:hover{background:var(--color-accent-100);}
+.reel-more-n{font-family:var(--font-heading);font-size:40px;line-height:1;color:var(--color-text);}
+.reel-more-go{margin-top:8px;font-weight:600;}
+.gallery-all{font-weight:600;}
 
 .tagrow{display:flex;flex-wrap:wrap;gap:12px;padding:34px 0 6px;}
 
@@ -310,6 +343,8 @@ a:hover{color:var(--color-accent-800);}
 @media (max-width:560px){
   .how-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:1fr;}
+  .reel-item{height:220px;}
+  .reel-nav{display:none;}
   .form-two{grid-template-columns:1fr;}
   .contact-grid{grid-template-columns:1fr;}
   .hero h1{font-size:44px;}
@@ -349,7 +384,7 @@ a:hover{color:var(--color-accent-800);}
       <span class="nav-word">Tangible Memories</span>
     </span>
     <div class="nav-links">
-      <a href="#gallery">Gallery</a>
+      <a href="/gallery">Gallery</a>
       <a href="#prices">Package</a>
       <a href="#contact">Contact</a>
       <a href="#book" class="btn btn-primary">Book your event</a>
@@ -378,11 +413,18 @@ a:hover{color:var(--color-accent-800);}
     <section id="gallery" class="gallery">
       <div class="gallery-head">
         <h2>Recent events</h2>
-        <span class="gallery-note">Each one printed once, handed over on the spot.</span>
+        <div class="reel-nav" aria-hidden="true">
+          <button type="button" class="reel-btn" id="reelPrev" tabindex="-1" aria-label="Scroll back">&#8592;</button>
+          <button type="button" class="reel-btn" id="reelNext" tabindex="-1" aria-label="Scroll forward">&#8594;</button>
+        </div>
+        <span class="gallery-note">Each one printed once, handed over on the spot. <a class="gallery-all" href="/gallery">See the full gallery &#8594;</a></span>
       </div>
-      <div class="gallery-grid">
-        <div class="mount" style="transform:rotate(-1.4deg)"><div class="frame"><img src="assets/session-02.jpg" width="600" height="600" alt="Friends squeezed into a restaurant booth, shot on instant film"></div></div>
-        <div class="mount" style="transform:rotate(1.1deg)"><div class="frame"><img src="assets/session-03.jpg" width="600" height="600" alt="Friends raising their drinks at a bar, shot on instant film"></div></div>
+      <!-- Reel images are filled in by server.js from assets/gallery/ — drop a
+           scan in that folder and it appears here on the next deploy. -->
+      <div class="reel-wrap">
+        <div class="reel" id="reel" tabindex="0" role="region" aria-label="Recent event prints. Scroll sideways to see more.">
+          <!-- GALLERY:ITEMS -->
+        </div>
       </div>
     </section>
   </header>
@@ -597,6 +639,28 @@ a:hover{color:var(--color-accent-800);}
 
   var money = function(n){ var r = Math.round(n*100)/100; return "$" + (r % 1 ? r.toFixed(2) : r); };
   var state = { sending: false, sent: false, error: "" };
+
+  // ── Gallery reel ────────────────────────────────────────────────────
+  (function(){
+    var reel = document.getElementById("reel");
+    if (!reel) return;
+    var wrap = reel.parentNode;
+    var prev = document.getElementById("reelPrev"), next = document.getElementById("reelNext");
+    if (!reel.querySelector(".reel-item")) { document.getElementById("gallery").hidden = true; return; }
+    var step = function(dir){ reel.scrollBy({ left: dir * reel.clientWidth * 0.8, behavior: "smooth" }); };
+    var sync = function(){
+      var max = reel.scrollWidth - reel.clientWidth - 2;
+      prev.disabled = reel.scrollLeft <= 2;
+      next.disabled = reel.scrollLeft >= max;
+      wrap.classList.toggle("at-end", reel.scrollLeft >= max);
+    };
+    prev.addEventListener("click", function(){ step(-1); });
+    next.addEventListener("click", function(){ step(1); });
+    reel.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    window.addEventListener("load", sync);
+    sync();
+  })();
 
   // ── Marquee (duplicated once for seamless loop) ─────────────────────
   var phrases = ["Now booking events","One flat price. No quotes.",
