@@ -544,9 +544,10 @@ a:hover{color:var(--color-accent-800);}
         </ul>
         <div class="addons">
           <div class="card-kicker">Add-ons</div>
-          <div class="addon-row"><span>Extra hour (adds <span id="hourPrints">20</span> prints)</span><span class="amt" id="addonHour">+$150</span></div>
+          <div class="addon-row"><span>Extra hour</span><span class="amt" id="addonHour">+$150</span></div>
           <div class="addon-row"><span>Guestbook album: guests stick in their print and sign</span><span class="amt" id="addonBook">+$75</span></div>
           <div class="addon-row"><span>Extra magnetic sleeves</span><span class="amt" id="addonSleeve">+$5 each</span></div>
+          <div class="addon-row"><span><span aria-hidden="true">💎 </span>Deluxe: Calil scans every print to digital and mails you the physical copies</span><span class="amt" id="addonDeluxe">+$200</span></div>
         </div>
         <a href="#book" class="btn btn-primary btn-block">Book a 10-minute call</a>
       </div>
@@ -660,6 +661,7 @@ a:hover{color:var(--color-accent-800);}
     guestbookPrice: 75,
     sleevesIncluded: 5,   // magnetic sleeves in the package
     sleevePrice: 5,       // each extra sleeve (add-on)
+    deluxePrice: 200,     // Deluxe add-on: every print scanned + physical copies mailed
     prepayPct: 10,       // discount for paying in full up front, % off the booking cost
     lateBonusPrints: 5,   // on-time guarantee alternative
     handle: "@TangibleMemories4U",
@@ -768,6 +770,7 @@ a:hover{color:var(--color-accent-800);}
     setText("addonBook", "+" + money(config.guestbookPrice));
     setText("pkgSleeves", config.sleevesIncluded);
     setText("addonSleeve", "+" + money(config.sleevePrice) + " each");
+    setText("addonDeluxe", "+" + money(config.deluxePrice));
     var pre = function(p){ return money(p*(100-config.prepayPct)/100); };
     document.querySelectorAll(".js-prepay").forEach(function(el){ el.textContent = pre(config.packagePrice); });
     document.querySelectorAll(".js-prepay-first").forEach(function(el){ el.textContent = pre(config.firstEventPrice); });
