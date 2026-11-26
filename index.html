@@ -294,7 +294,8 @@ a:hover{color:var(--color-accent-800);}
 .deposit .amt-row{display:flex;align-items:baseline;gap:10px;}
 .deposit .amt{font-family:var(--font-heading);font-size:30px;line-height:1;}
 .deposit .amt-sub{font-size:15px;color:var(--color-neutral-300);}
-.deposit .pay-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;}
+.deposit .pay-row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;}
+.deposit .pay-opt{display:inline-flex;align-items:center;gap:10px;}
 .deposit .cashtag{font-size:14px;color:var(--color-neutral-300);}
 .deposit .fine{font-size:14px;color:var(--color-neutral-400);}
 .book-form{display:flex;flex-direction:column;gap:16px;}
@@ -536,6 +537,10 @@ a:hover{color:var(--color-accent-800);}
           <li>All film, cameras, and gear included</li>
           <li><span><span id="pkgSleeves">5</span> magnetic sleeves for the host's favorites</span></li>
           <li>Birthdays, showers, graduations, weddings, office parties, nights out</li>
+          <li>$0 to book: your date is held once Calil confirms it by email</li>
+          <li>Pay in full when the event wraps: card, Apple Pay, Cash App, Venmo or cash</li>
+          <li><span>Or prepay in full after your 10-minute call and take <span class="js-pct">10%</span> off, add-ons included: <span class="js-prepay">$314.10</span>, or <span class="js-prepay-first">$224.10</span> for your first event</span></li>
+          <li>Need a different date? Ask, and it moves to an open date when one works</li>
         </ul>
         <div class="addons">
           <div class="card-kicker">Add-ons</div>
@@ -548,7 +553,7 @@ a:hover{color:var(--color-accent-800);}
       <div class="card elev-sm good-to-know">
         <div class="card-kicker">Good to know</div>
         <div class="card-title">$0 to book your date</div>
-        <p class="card-body">Nothing is due to hold your date. Pay when the event wraps, or prepay in full and save <span class="js-pct">10%</span>. See the booking terms below.</p>
+        <p class="card-body">Nothing is due to hold your date. Pay when the event wraps, or prepay in full and save <span class="js-pct">10%</span>.</p>
         <div class="card-title">On time, or <span class="js-bonus">5</span> free prints</div>
         <p class="card-body">If Calil isn't set up and shooting at your start time, you get <span class="js-bonus">5</span> extra prints free, on top of your package.</p>
         <div class="card-title">Real prints, no files</div>
@@ -557,27 +562,6 @@ a:hover{color:var(--color-accent-800);}
     </div>
   </section>
 
-  <!-- 8b. Retainer -->
-  <section id="retainer" class="retainer">
-    <div class="card elev-sm retainer-card">
-      <div class="retainer-head">
-        <div class="card-kicker">Booking terms</div>
-        <h2>$0 to book</h2>
-        <p>Booking is free. Once Calil confirms your date by email, it's held for you. Prepay in full and take <span class="js-pct">10%</span> off.</p>
-      </div>
-      <div class="retainer-rows">
-        <div class="addon-row"><span>Instant Event Package</span><span class="amt"><span class="js-prepay">$314.10</span> prepaid</span></div>
-        <div class="addon-row"><span>First event with us</span><span class="amt"><span class="js-prepay-first">$224.10</span> prepaid</span></div>
-        <div class="addon-row"><span>Add-ons</span><span class="amt"><span class="js-pct">10%</span> off when prepaid</span></div>
-        <ul class="pkg-list">
-          <li>$0 to book: your date is held once Calil confirms it by email</li>
-          <li>Pay in full when the event wraps: card, Apple Pay, Cash App or cash</li>
-          <li><span>Or prepay in full after your 10-minute call and take <span class="js-pct">10%</span> off</span></li>
-          <li>Need a different date? Ask, and it moves to an open date when one works</li>
-        </ul>
-      </div>
-    </div>
-  </section>
 
   <!-- 9. Book -->
   <section id="book" class="book">
@@ -589,10 +573,10 @@ a:hover{color:var(--color-accent-800);}
           <div class="kick">PAYMENT</div>
           <div class="amt-row"><span class="amt">$0</span><span class="amt-sub">· to book your date</span></div>
           <div class="pay-row">
-            <a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Prepay on Cash App</a>
-            <span class="cashtag">$calilhall</span>
+            <span class="pay-opt"><a href="https://cash.app/$calilhall" id="depositBtn" target="_blank" rel="noopener" class="btn btn-primary">Prepay on Cash App</a><span class="cashtag">$calilhall</span></span>
+            <span class="pay-opt"><a href="https://venmo.com/u/Calil-Hall" target="_blank" rel="noopener" class="btn btn-primary">Prepay on Venmo</a><span class="cashtag">@Calil-Hall</span></span>
           </div>
-          <span class="fine">Prepay after your call, once your date is confirmed, and take <span class="js-pct">10%</span> off: <span class="js-prepay">$314.10</span> for the package, <span class="js-prepay-first">$224.10</span> for your first event. Otherwise pay in full at the end of your event: card, Apple Pay, Cash App or cash.</span>
+          <span class="fine">Prepay after your call, once your date is confirmed, and take <span class="js-pct">10%</span> off: <span class="js-prepay">$314.10</span> for the package, <span class="js-prepay-first">$224.10</span> for your first event. Otherwise pay in full at the end of your event: card, Apple Pay, Cash App, Venmo or cash.</span>
         </div>
       </div>
       <form class="book-form" id="bookForm" novalidate>
