@@ -123,6 +123,13 @@ a:hover{color:var(--color-accent-800);}
 .nav-links a:not(.btn):hover{color:var(--color-accent-800);}
 
 .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start;padding:52px 0 24px;}
+/* Hero backdrop: the original poster, darkened, behind the hero cards (like the reference's house photo).
+   A rounded panel rather than edge-to-edge, to match the offer bar and nav. */
+.hero{position:relative;isolation:isolate;overflow:hidden;margin-top:28px;padding:28px;border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);background:var(--color-neutral-900);}
+/* Slight blur so the poster's printed text ($349, slogans) doesn't read through between the cards. */
+.hero::before{content:"";position:absolute;inset:-24px;z-index:-2;background:url("assets/hero-poster.jpg") center 20%/cover no-repeat;filter:blur(4px);}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(46,43,37,.55),rgba(46,43,37,.78));}
 .hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:22px;}
 .hero h1{font-size:76px;line-height:.95;margin:0;letter-spacing:-.02em;}
 .hero-from{color:var(--color-accent-600);}
@@ -372,6 +379,7 @@ a:hover{color:var(--color-accent-800);}
   .nav-links a.nav-gallery{display:none;}
 }
 @media (max-width:560px){
+  .hero{padding:12px;margin-top:20px;}
   .how-grid{grid-template-columns:1fr;}
   .gallery-grid{grid-template-columns:1fr;}
   .reel-item{height:220px;}
