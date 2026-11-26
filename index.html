@@ -262,11 +262,11 @@ a:hover{color:var(--color-accent-800);}
 .pkg-price .fig{font-family:var(--font-heading);font-size:44px;line-height:1;}
 .pkg-price .per{font-size:14px;color:var(--color-neutral-700);}
 .pkg-first{display:inline-flex;align-self:flex-start;}
-.pkg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
-.pkg-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;}
-.pkg-list li::before{content:"";flex:none;width:18px;height:22px;margin-top:1px;border-radius:3px;
-  background:var(--color-neutral-100);box-shadow:var(--shadow-sm);
-  border-bottom:6px solid var(--color-neutral-100);outline:1.5px solid var(--color-accent-300);}
+.pkg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;}
+.pkg-list li{display:flex;gap:12px;align-items:flex-start;font-size:15px;font-weight:600;padding:10px 0;}
+.pkg-list li+li{border-top:1px solid var(--color-divider);}
+.pkg-list li::before{content:"";flex:none;width:20px;height:20px;margin-top:1px;border-radius:999px;
+  background:var(--color-accent-600) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5ead8' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/12px no-repeat;}
 .addons{border-top:1.5px dashed var(--color-neutral-300);padding-top:16px;display:flex;flex-direction:column;gap:10px;}
 .addons .card-kicker{margin-bottom:2px;}
 .addon-row{display:flex;justify-content:space-between;gap:16px;font-size:15px;}
@@ -533,15 +533,15 @@ a:hover{color:var(--color-accent-800);}
         <span class="tag tag-accent-2 pkg-first">First event with us: <strong>&nbsp;<span id="firstPrice">$249</span></strong></span>
         <ul class="pkg-list">
           <li>2 hours of instant photography at your event</li>
-          <li>Up to <span id="pkgPrints">40</span> instant prints, handed to guests as they develop</li>
           <li>All film, cameras, and gear included</li>
-          <li>10 magnetic sleeves for the host's favorites</li>
+          <li><span><span id="pkgSleeves">5</span> magnetic sleeves for the host's favorites</span></li>
           <li>Birthdays, showers, graduations, weddings, office parties, nights out</li>
         </ul>
         <div class="addons">
           <div class="card-kicker">Add-ons</div>
           <div class="addon-row"><span>Extra hour (adds <span id="hourPrints">20</span> prints)</span><span class="amt" id="addonHour">+$150</span></div>
           <div class="addon-row"><span>Guestbook album: guests stick in their print and sign</span><span class="amt" id="addonBook">+$75</span></div>
+          <div class="addon-row"><span>Extra magnetic sleeves</span><span class="amt" id="addonSleeve">+$5 each</span></div>
         </div>
         <a href="#book" class="btn btn-primary btn-block">Book a 10-minute call</a>
       </div>
@@ -674,6 +674,8 @@ a:hover{color:var(--color-accent-800);}
     extraHourPrints: 20,
     extraHourPrice: 150,
     guestbookPrice: 75,
+    sleevesIncluded: 5,   // magnetic sleeves in the package
+    sleevePrice: 5,       // each extra sleeve (add-on)
     prepayPct: 10,       // discount for paying in full up front, % off the booking cost
     lateBonusPrints: 5,   // on-time guarantee alternative
     handle: "@TangibleMemories4U",
@@ -780,6 +782,8 @@ a:hover{color:var(--color-accent-800);}
     setText("hourPrints", config.extraHourPrints);
     setText("addonHour", "+" + money(config.extraHourPrice));
     setText("addonBook", "+" + money(config.guestbookPrice));
+    setText("pkgSleeves", config.sleevesIncluded);
+    setText("addonSleeve", "+" + money(config.sleevePrice) + " each");
     var pre = function(p){ return money(p*(100-config.prepayPct)/100); };
     document.querySelectorAll(".js-prepay").forEach(function(el){ el.textContent = pre(config.packagePrice); });
     document.querySelectorAll(".js-prepay-first").forEach(function(el){ el.textContent = pre(config.firstEventPrice); });
