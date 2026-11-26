@@ -110,6 +110,8 @@ a:hover{color:var(--color-accent-800);}
 .hero h1{font-size:76px;line-height:.95;margin:0;letter-spacing:-.02em;}
 .hero-from{color:var(--color-accent-600);}
 .hero-kicker{margin:0;font-size:12px;font-weight:600;color:var(--color-accent-700);}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;}
+.hero-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 15px;border-radius:999px;background:var(--color-neutral-100);border:1.5px solid var(--color-neutral-300);font-size:14px;font-weight:600;line-height:1.2;color:var(--color-text);}
 .hero-lead{font-size:21px;line-height:1.5;margin:0;max-width:30ch;color:var(--color-neutral-800);}
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;}
 .price-pair{display:flex;flex-wrap:wrap;gap:16px 28px;padding-top:6px;}
@@ -409,10 +411,10 @@ a:hover{color:var(--color-accent-800);}
         <a href="#book" class="btn btn-primary">Book a 10-minute call</a>
         <a href="#prices" class="btn btn-secondary">See the package</a>
       </div>
-      <div class="price-pair">
-        <div><div class="price-fig">$349</div><div class="price-lbl">2-hour event</div></div>
-        <div><div class="price-fig">$249</div><div class="price-lbl">your first event</div></div>
-        <div><div class="price-fig" id="heroPrints">40</div><div class="price-lbl">prints included</div></div>
+      <div class="hero-chips">
+        <span class="hero-chip"><span aria-hidden="true">💍</span>Weddings</span>
+        <span class="hero-chip"><span aria-hidden="true">🎉</span>Parties</span>
+        <span class="hero-chip"><span aria-hidden="true">💼</span>Corporate events</span>
       </div>
     </div>
     <div class="hero-img">
